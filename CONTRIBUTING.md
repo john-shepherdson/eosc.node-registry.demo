@@ -39,10 +39,10 @@ For instance, the following commit message:
 When contributing to the code, please follow these steps:
 
 1. Fork the repository (if not in the EOSC Beyond organisation).
-2. Create a new branch for your changes (base = `next`).
+2. Create a new branch for your changes (base = `nextRelease`).
 3. Make your changes and commit them.
 4. Push your changes.
-5. Open a pull request to the `next` branch of the main repository.
+5. Open a pull request to the `nextRelease` branch of the main repository.
 
 Both `next` and `main` branches are protected and require a review before merging. 
 The `next` branch is used for the next release, while the `main` branch is used for the current release
