@@ -82,7 +82,7 @@ Several frameworks are used in this application.
 | [Gson](https://github.com/google/gson) | Java library used to convert Java Objects and/or Strings into their JSON representation |
 | [Apache HttpComponents client](https://github.com/apache/httpcomponents-client) | Http client |
 | [com.google.cloud.tools](https://github.com/GoogleContainerTools/jib) | Use for building Docker and OCI images for Java applications |
-| [org.sonarsource.scanner.maven](https://github.com/SonarSource/sonar-scanner-maven) | SonarQube scanner cfor Maven|
+| [org.sonarsource.scanner.maven](https://github.com/SonarSource/sonar-scanner-maven) | SonarQube scanner for Maven|
 | [com.mycila](https://github.com/mathieucarbou/license-maven-plugin) | Checks that each source file has licence header |
 | [org.jacoco](https://github.com/jacoco/jacoco) | Java code coverage library |
 | [org.apache.maven.plugins](https://github.com/apache/maven-surefire) |  Executes the unit tests of a Maven application or project |
