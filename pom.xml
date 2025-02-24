@@ -1,0 +1,272 @@
+<!--
+ * Copyright © 2025 EOSC Beyond
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+     <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.3</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>eoscbeyond.eu</groupId>
+    <artifactId>node-registry</artifactId>
+    <packaging>jar</packaging>
+    <name>EOSC Node Registry (demo)</name>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>21</java.version>
+        <!-- The main class to start by executing java -jar -->
+        <start-class>eoscbeyond.eu.NodeRegistryApplication</start-class>
+    </properties>
+
+    <dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-dependencies</artifactId>
+            <version>3.4.3</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- Spring Boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Database -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!--Logging Support-->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+        </dependency>
+
+        <!-- Swagger -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.8.4</version>
+        </dependency>
+
+        <!-- JUnit 5 for testing -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.12.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- testing -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Gson for JSON serialization -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.12.1</version>
+        </dependency>
+
+        <!-- URI Handling -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.14</version>
+        </dependency>
+  
+    <dependency>
+      <groupId>io.github.alaugks</groupId>
+      <artifactId>spring-messagesource-catalog</artifactId>
+      <version>0.5.0</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+        <!-- Depencency information -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>properties</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+        <!--Spring Boot-->
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>3.2.2</version>
+            <configuration>
+                <mainClass>${start-class}</mainClass> <!-- Uses the property -->
+            </configuration>
+        </plugin>
+        <!--Docker Containerisation-->
+        <plugin>
+            <groupId>com.google.cloud.tools</groupId>
+            <artifactId>jib-maven-plugin</artifactId>
+            <version>3.4.4</version>
+            <configuration>
+                <to>
+                    <image>cessda/${project.artifactId}:${project.version}</image>
+                </to>
+                <container>
+                    <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+                </container>
+            </configuration>
+        </plugin>
+         <!--Jar packaging Support-->
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>3.2.2</version>
+            <configuration>
+                <configuration>
+                    <from>
+                        <image>eclipse-temurin@sha256:a0beb73cc0482c579ccff1a2df91024d8c01783d0772ad0c26f3817d3e9ad0b9</image>
+                    </from>
+            </configuration>
+                <archive>
+                    <manifest>
+                        <mainClass>${start-class}</mainClass>  <!-- Uses property -->
+                    </manifest>
+                </archive>
+            </configuration>
+        </plugin>
+        <!--SonarQube Support-->
+        <plugin>
+            <groupId>org.sonarsource.scanner.maven</groupId>
+            <artifactId>sonar-maven-plugin</artifactId>
+            <version>5.0.0.4389</version>
+        </plugin>
+        <!-- License Plugin -->
+        <plugin>
+          <groupId>com.mycila</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <version>4.6</version>
+          <configuration>
+              <properties>
+                  <owner>EOSC Beyond</owner>
+                  <year>2025</year>
+              </properties>
+              <licenseSets>
+                <licenseSet>
+                    <header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+              <excludes>
+                  <exclude>mvnw*</exclude>
+                  <exclude>.mvn/**</exclude>
+                  <exclude>.*</exclude>
+                  <exclude>Jenkinsfile</exclude>
+                  <exclude>LICENSE.txt</exclude>
+                  <exclude>*.md</exclude>
+                  <exclude>*.cff</exclude>
+                  <exclude>**/*.csv</exclude>
+                  <exclude>*.xml</exclude>
+                  <exclude>**/README</exclude>
+                  <exclude>**/.m2/**</exclude>
+                  <exclude>input/**</exclude>
+                  <exclude>src/test/resources/**</exclude>
+                  <exclude>src/main/resources/**</exclude>
+              </excludes>
+              </licenseSet>
+    </licenseSets>
+              <mapping>
+                  <java>PHP</java>
+              </mapping>
+          </configuration>
+          <executions>
+              <execution>
+                  <goals>
+                      <goal>check</goal>
+                  </goals>
+              </execution>
+          </executions>
+      </plugin>
+        <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.12</version>
+            <executions>
+                <execution>
+                    <id>default-prepare-agent</id>
+                    <goals>
+                        <goal>prepare-agent</goal>
+                    </goals>
+                </execution>
+                <execution>
+                    <id>default-report</id>
+                    <goals>
+                        <goal>report</goal>
+                    </goals>
+                </execution>
+            </executions>
+            </plugin>
+        <!-- Surefire -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>@{argLine} -javaagent:${org.mockito:mockito-core:jar}</argLine>
+                </configuration>
+            </plugin>
+    </plugins>
+  </build>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/john-shepherdson/eosc.node-registry.demo/issues</url>
+    </issueManagement>
+
+    <scm>
+        <url>https://github.com/john-shepherdson/eosc.node-registry.demo.git</url>
+    </scm>
+</project>
