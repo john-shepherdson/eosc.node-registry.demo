@@ -1,4 +1,4 @@
-[![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_bronze.png)](https://api.eu.badgr.io/public/assertions/xfGBue56Ra2hOsFKGaYO7w "SQAaaS bronze badge achieved")
+[![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_silver.png)](https://api.eu.badgr.io/public/assertions/WwFLpKJ0SqqREmM0OZtzWw "SQAaaS silver badge achieved")
 
 # EOSC Node Registry (demo)
 
