@@ -1,3 +1,5 @@
+[![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_bronze.png)](https://api.eu.badgr.io/public/assertions/xfGBue56Ra2hOsFKGaYO7w "SQAaaS bronze badge achieved")
+
 # EOSC Node Registry (demo)
 
 This repository contains the source code for a demonstration version of the EOSC Node Registry.
