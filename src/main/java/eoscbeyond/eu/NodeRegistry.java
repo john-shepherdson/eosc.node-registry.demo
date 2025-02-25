@@ -16,6 +16,10 @@
 package eoscbeyond.eu;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -31,11 +35,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  *
  * <p>Example usage:</p>
  * <pre>
- *     ArrayList<EoscNode> nodeList = new ArrayList<>();
+ *     List<EoscNode> nodeList = new ArrayList<>();
  *     nodeList.add(new EoscNode("123", "Example Node", logoUri, "PID123", legalEntity, endpointUri, capabilities));
  *     NodeRegistry registry = new NodeRegistry(nodeList);
  *     EoscNode foundNode = registry.searchNodeById("123");
- *     ArrayList<EoscNode> storageNodes = registry.searchNodesByCapability("Resource Catalogue");
+ *     List<EoscNode> storageNodes = registry.searchNodesByCapability("Resource Catalogue");
  * </pre>
  *
  * <p><strong>Note:</strong> The registry uses a static list of nodes, meaning all instances 
@@ -44,26 +48,30 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  * @author John Shepherdson
  * @version 1.0
  */
-
 @Tag(name = "Node Registry", description = "Operations related to node management in the registry.")
 public class NodeRegistry {
-    private static ArrayList<EoscNode> nodes;
+    private static List<EoscNode> nodes;
+    private static final Logger logger = LogManager.getLogger(NodeRegistry.class);
 
-    public NodeRegistry(ArrayList<EoscNode> _nodes) {
-        nodes = _nodes;
-        if (nodes.isEmpty()) {
-            System.out.println("Node registry not initialised");
+     /**
+     * Constructor - creates instance with list of nodes.
+     * @param _nodes the list of EOSCNodes
+     */
+    public NodeRegistry(List<EoscNode> _nodes) {
+        if (_nodes.isEmpty()) {
+            logger.error("Node registry not initialised");
         } else {
-            System.out.println("Node registry initialised. Number of nodes is " + nodes.size());
+            NodeRegistry.nodes = _nodes;
+            logger.info("Node registry initialised. Number of nodes is " + _nodes.size());
         }
     }
 
     /**
      * Set list of nodes stored in the registry.
-     * @param _nodes the list of EOSCNode
+     * @param _nodes the list of EOSCNodes
      */
-    public void setNodes(ArrayList<EoscNode> _nodes) {
-        nodes = _nodes;
+    public static void setNodes(List<EoscNode> _nodes) {
+        NodeRegistry.nodes = _nodes;
     }
 
     /**
@@ -71,26 +79,44 @@ public class NodeRegistry {
      * @return the list of EOSCNodes stored in the registry
      */
     @Operation(summary = "Get nodes", description = "Retrieves the list of nodes from the registry.")
-    public static ArrayList<EoscNode> getNodes() {
-        return nodes;
+    public static List<EoscNode> getNodes() {
+        return NodeRegistry.nodes;
     }
 
     /**
-     * Search the registry for a node with a specified ID
-     * @param id the ID of the node to search for
+     * Search the registry for a node with a specified ID and return full details
+     * @param _id the ID of the node to search for
      * @return matchingNode the EOSCNode that has the specified ID, otherwise null.
      */
     @Operation(summary = "Search node by ID", description = "Retrieves a node from the registry by its ID.")
-    public EoscNode searchNodeById(
-        @Parameter(description = "ID of the node to retrieve", required = true, example = "1") String id) {
+    public static EoscNode searchNodeById(
+        @Parameter(description = "ID of the node to retrieve", required = true, example = "1") String _id) {
         EoscNode matchingNode = null;
         for (EoscNode node : nodes) {
-            if (node.getId().equals(id)) {
+            if (node.getId().equals(_id)) {
                 matchingNode = node;
                 break;
             }
         }
         return matchingNode;
+    }
+
+     /**
+     * Search the registry for a node with a specified ID and return summary details
+     * @param _id the ID of the node to search for
+     * @return matchingNodeSummary summary of details of the EOSCNode that has the specified ID, otherwise null.
+     */
+    @Operation(summary = "Search node summary by ID", description = "Retrieves summary information for a node from the registry by its ID.")
+    public static String searchNodeSummaryById(
+        @Parameter(description = "ID of the node to retrieve", required = true, example = "1") String _id) {
+        String matchingNodeSummary = null;
+        for (EoscNode node : nodes) {
+            if (node.getId().equals(_id)) {
+                matchingNodeSummary = node.getBasicNodeInfo();
+                break;
+            }
+        }
+        return matchingNodeSummary;
     }
 
     /**
@@ -100,11 +126,11 @@ public class NodeRegistry {
      * @return matchingNodes The list of EoscNodes that offer the capability, otherwise null.
      */
     @Operation(summary = "Search nodes by capability", description = "Finds nodes that offer a specified capability.")
-    public ArrayList<EoscNode> searchNodesByCapability(
+    public static List<EoscNode> searchNodesByCapability(
         @Parameter(description = "Name of the capability to search for", required = true, example = "Resource Catalogue") String capName) {
-        ArrayList<EoscNode> matchingNodes = new ArrayList<EoscNode>();
+        List<EoscNode> matchingNodes = new ArrayList<EoscNode>();
         for (EoscNode node : nodes) {
-            ArrayList<String> capabilityNames = node.getCapabilityNames();
+            List<String> capabilityNames = node.getCapabilityNames();
             if (capabilityNames.contains(capName)) {
                 matchingNodes.add(node);
             }

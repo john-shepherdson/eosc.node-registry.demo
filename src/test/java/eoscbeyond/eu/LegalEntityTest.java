@@ -28,14 +28,14 @@ import com.google.gson.Gson;
 /**
  * Unit tests for the LegalEntity class.
  */
-public class LegalEntityTest {
+class LegalEntityTest {
     private LegalEntity legalEntity;
 
     /**
      * Sets up the test environment before each test.
      */
     @BeforeEach
-    public void setUp() throws URISyntaxException {
+    void setUp() throws URISyntaxException {
         legalEntity = new LegalEntity("Example Corp", new URI("https://ror.org/12345"));
     }
 
@@ -43,7 +43,7 @@ public class LegalEntityTest {
      * Tests the getName() and setName() methods.
      */
     @Test
-    public void testGetAndSetName() {
+    void testGetAndSetName() {
         legalEntity.setName("New Corp");
         assertEquals("New Corp", legalEntity.getName());
     }
@@ -52,7 +52,7 @@ public class LegalEntityTest {
      * Tests the getRorId() and setRorId() methods.
      */
     @Test
-    public void testGetAndSetRorId() throws URISyntaxException {
+    void testGetAndSetRorId() throws URISyntaxException {
         URI newRorId = new URI("https://ror.org/67890");
         legalEntity.setRorId(newRorId);
         assertEquals(newRorId, legalEntity.getRorId());
@@ -62,7 +62,7 @@ public class LegalEntityTest {
      * Tests the toJson() method.
      */
     @Test
-    public void testToJson() {
+    void testToJson() {
         Gson gson = new Gson();
         String expectedJson = gson.toJson(legalEntity);
         assertEquals(expectedJson, legalEntity.toJson());

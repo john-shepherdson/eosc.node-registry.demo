@@ -28,14 +28,14 @@ import com.google.gson.Gson;
 /**
  * Unit tests for the EoscCapability class.
  */
-public class EoscCapabilityTest {
+class EoscCapabilityTest {
     private EoscCapability capability;
 
     /**
      * Sets up the test environment before each test.
      */
     @BeforeEach
-    public void setUp() throws URISyntaxException {
+    void setUp() throws URISyntaxException {
         capability = new EoscCapability("Service Monitoring", new URI("https://example.com/api/service-monitoring"),
                 "1.2");
     }
@@ -44,7 +44,7 @@ public class EoscCapabilityTest {
      * Tests the getCapabilityType() and setCapabilityType() methods.
      */
     @Test
-    public void testGetAndSetCapabilityType() {
+    void testGetAndSetCapabilityType() {
         capability.setCapabilityType("Resource Catalogue");
         assertEquals("Resource Catalogue", capability.getCapabilityType());
     }
@@ -53,7 +53,7 @@ public class EoscCapabilityTest {
      * Tests the getEndpoint() and setEndpoint() methods.
      */
     @Test
-    public void testGetAndSetEndpoint() throws URISyntaxException {
+    void testGetAndSetEndpoint() throws URISyntaxException {
         URI newEndpoint = new URI("https://example.com/api/resource-catalogue");
         capability.setEndpoint(newEndpoint);
         assertEquals(newEndpoint, capability.getEndpoint());
@@ -63,7 +63,7 @@ public class EoscCapabilityTest {
      * Tests the getVersion() and setVersion() methods.
      */
     @Test
-    public void testGetAndSetVersion() {
+    void testGetAndSetVersion() {
         capability.setVersion("2.0");
         assertEquals("2.0", capability.getVersion());
     }
@@ -72,7 +72,7 @@ public class EoscCapabilityTest {
      * Tests the toJson() method.
      */
     @Test
-    public void testToJson() {
+    void testToJson() {
         Gson gson = new Gson();
         String expectedJson = gson.toJson(capability);
         assertEquals(expectedJson, capability.toJson());

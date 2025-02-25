@@ -16,9 +16,11 @@
 package eoscbeyond.eu;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,45 +33,58 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
+@CrossOrigin(origins = "*") // Allow all origins
 @RequestMapping("/nodes")
 @Tag(name = "Node Registry", description = "Endpoints for managing node registry")
 public class NodeRegistryController {
 
-    private final NodeRegistry nodeRegistry;
-
     // Constructor Injection
     public NodeRegistryController() {
-        this.nodeRegistry = new NodeRegistry(new ArrayList<>()); // Initializing with an empty list
     }
 
+    /** 
+     * @return ResponseEntity<List<EoscNode>>
+     */
     @Operation(summary = "Get all nodes", description = "Retrieves the list of all registered nodes.")
     @GetMapping
-    public ResponseEntity<ArrayList<EoscNode>> getAllNodes() {
+    public ResponseEntity<List<EoscNode>> getAllNodes() {
         return ResponseEntity.ok(NodeRegistry.getNodes());
     }
 
+    /** 
+     * @param nodes List of EoscNodes
+     * @return ResponseEntity<String>
+     */
     @Operation(summary = "Set nodes", description = "Sets a new list of nodes in the registry.")
     @PostMapping("/set")
     public ResponseEntity<String> setNodes(@RequestBody ArrayList<EoscNode> nodes) {
-        nodeRegistry.setNodes(nodes);
+        NodeRegistry.setNodes(nodes);
         return ResponseEntity.ok("Node list updated successfully");
     }
 
-    @Operation(summary = "Search node by ID", description = "Retrieves a specific node by its ID.")
+    /** 
+     * @param id EoscNode ID
+     * @return ResponseEntity<String> List of EoscNode summary details
+     */
+    @Operation(summary = "Search node summary by ID", description = "Retrieves endpoint and capapility info for a node by its ID.")
     @GetMapping("/{id}")
-    public ResponseEntity<EoscNode> getNodeById(@PathVariable String id) {
-        EoscNode node = nodeRegistry.searchNodeById(id);
-        if (node != null) {
-            return ResponseEntity.ok(node);
+    public ResponseEntity<String> getNodeSummaryById(@PathVariable String id) {
+        String nodeSummary = NodeRegistry.searchNodeSummaryById(id);
+        if (nodeSummary != null) {
+            return ResponseEntity.ok(nodeSummary);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
+     /** 
+     * @param capability name of EoscCapability to search for
+     * @return ResponseEntity<String> List of EoscNodes that have the capability
+     */
     @Operation(summary = "Search nodes by capability", description = "Finds nodes that offer a specific capability.")
     @GetMapping("/search")
-    public ResponseEntity<ArrayList<EoscNode>> searchNodesByCapability(@RequestParam String capability) {
-        ArrayList<EoscNode> nodes = nodeRegistry.searchNodesByCapability(capability);
+    public ResponseEntity<List<EoscNode>> searchNodesByCapability(@RequestParam String capability) {
+        List<EoscNode> nodes = NodeRegistry.searchNodesByCapability(capability);
         return ResponseEntity.ok(nodes);
     }
 }
