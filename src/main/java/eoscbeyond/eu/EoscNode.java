@@ -17,6 +17,7 @@ package eoscbeyond.eu;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.Gson;
 
@@ -44,7 +45,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  *
  *     EoscNode node = new EoscNode("123", "Example Node", logoUri, "PID123", legalEntity, endpointUri, capabilities);
  *     String json = node.toJson();
- *     System.out.println(json);
+ *     logger.info(json);
  * </pre>
  *
  * @author John Shepherdson
@@ -56,15 +57,9 @@ public class EoscNode {
     private String name;
     private URI logo;
     private String pid;
-    private LegalEntity legal_entity;
-    private URI node_endpoint;
-    private ArrayList<EoscCapability> capabilityList;
-
-    /**
-     * Default constructor
-     */
-    public EoscNode() {
-    }
+    private LegalEntity legalEntity;
+    private URI nodeEndpoint;
+    private List<EoscCapability> capabilityList;
 
     /**
      * Parameterized constructor for EoscNode.
@@ -76,13 +71,13 @@ public class EoscNode {
      * @param _node_endpoint Node endpoint URI
      * @param _capabilityList List of capabilities
      */
-    public EoscNode(String _id, String _name, URI _logo, String _pid, LegalEntity _legal_entity, URI _node_endpoint, ArrayList<EoscCapability> _capabilityList) {
+    public EoscNode(String _id, String _name, URI _logo, String _pid, LegalEntity _legal_entity, URI _node_endpoint, List<EoscCapability> _capabilityList) {
         this.id = _id;
         this.name = _name;
         this.logo = _logo;
         this.pid = _pid;
-        this.legal_entity = _legal_entity;
-        this.node_endpoint = _node_endpoint;
+        this.legalEntity = _legal_entity;
+        this.nodeEndpoint = _node_endpoint;
         this.capabilityList = _capabilityList;
     }
 
@@ -93,15 +88,15 @@ public class EoscNode {
     @Operation(summary = "Get node ID", description = "Retrieves the unique identifier of the node.")
     @Parameter(description = "The ID of the node")
     public String getId() {
-        return id;
+        return this.id;
     }
 
     /**
      * Sets the node ID.
-     * @param id the node ID
+     * @param _id the node ID
      */
-    public void setId(String id) {
-        this.id = id;
+    public void setId(String _id) {
+        this.id = _id;
     }
 
     /**
@@ -110,7 +105,7 @@ public class EoscNode {
      */
     @Operation(summary = "Get node name", description = "Retrieves the name of the node.")
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -161,15 +156,15 @@ public class EoscNode {
      */
     @Operation(summary = "Get legal entity", description = "Retrieves the legal entity associated with the node.")
     public LegalEntity getLegalEntity() {
-        return legal_entity;
+        return legalEntity;
     }
 
     /**
      * Sets the legal entity.
-     * @param legal_entity the legal entity
+     * @param legalEntity the legal entity
      */
     public void setLegalEntity(LegalEntity legal_entity) {
-        this.legal_entity = legal_entity;
+        this.legalEntity = legal_entity;
     }
 
     /**
@@ -178,7 +173,7 @@ public class EoscNode {
      */
     @Operation(summary = "Get node endpoint URI", description = "Retrieves the endpoint URI of the node.")
     public URI getNodeEndpoint() {
-        return node_endpoint;
+        return nodeEndpoint;
     }
 
     /**
@@ -186,7 +181,7 @@ public class EoscNode {
      * @param node_endpoint the node endpoint URI
      */
     public void setNodeEndpoint(URI node_endpoint) {
-        this.node_endpoint = node_endpoint;
+        this.nodeEndpoint = node_endpoint;
     }
 
     /**
@@ -194,16 +189,16 @@ public class EoscNode {
      * @return the list of capabilities
      */
     @Operation(summary = "Get list of capabilities", description = "Retrieves the list of capabilities offered by the node.")
-    public ArrayList<EoscCapability> getCapabilityList() {
-        return capabilityList;
+    public List<EoscCapability> getCapabilityList() {
+        return this.capabilityList;
     }
 
     /**
      * Sets the list of capabilities.
      * @param capabilityList the list of capabilities
      */
-    public void setCapabilityList(ArrayList<EoscCapability> capabilityList) {
-        this.capabilityList = capabilityList;
+    public void setCapabilityList(ArrayList<EoscCapability> _capabilityList) {
+        this.capabilityList = _capabilityList;
     }
 
     /**
@@ -219,12 +214,12 @@ public class EoscNode {
     * Gets the list of capability names.
     * @return the list of capability names as an array of Strings
     */
-    public ArrayList<String> getCapabilityNames() {
+    public List<String> getCapabilityNames() {
         ArrayList<String> capabilityNames = new ArrayList<String>();
         String capabilityType = null;
 
-        for (int i = 0; i < capabilityList.size(); i++){
-            capabilityType = capabilityList.get(i).getCapabilityType();
+        for (int i = 0; i < this.capabilityList.size(); i++){
+            capabilityType = this.capabilityList.get(i).getCapabilityType();
             capabilityNames.add(capabilityType.trim());
         }
         return capabilityNames;
@@ -232,17 +227,18 @@ public class EoscNode {
 
     /**
     * Gets the basic node info.
-    * @return a JSON string representation of the endpoint and list of capability names
-    *
-    * TODO: returned values needs to match Node Endpoint API Response format specified in EOSC Node Registry Architecture document
+    * @return a JSON string representation of the endpoint and list of capabilities
     */
     @Operation(summary = "Get basic node info", description = "Retrieves basic information about the node, including its endpoint and capability names.")
     public String getBasicNodeInfo(){
-        //ArrayList<String> basicInfo = new ArrayList<>();
-        String nodeEndpoint = this.getNodeEndpoint().toString();
-        ArrayList<String> basicInfo = this.getCapabilityNames();
         Gson gson = new Gson();
-        basicInfo.addFirst(nodeEndpoint);
+        String endpoint = this.getNodeEndpoint().toString();
+        List<String> basicInfo = new ArrayList<>();
+        String caps = gson.toJson(this.getCapabilityList());
+        basicInfo.add("node endpoint:");
+        basicInfo.add(endpoint);
+        basicInfo.add("capabilities:");
+        basicInfo.add(caps);
         return gson.toJson(basicInfo);
     }
 }

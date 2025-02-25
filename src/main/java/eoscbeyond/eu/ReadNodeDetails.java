@@ -21,6 +21,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * The {@code ReadNodeDetails} class is responsible for reading and parsing node
@@ -64,15 +68,16 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class ReadNodeDetails {
-    private ArrayList<EoscNode> nodes = new ArrayList<EoscNode>();
+    private List<EoscNode> nodes = new ArrayList<EoscNode>();
+    private static final Logger logger = LogManager.getLogger(ReadNodeDetails.class);
 
     /**
      * Parameterised constructor for LegalEntity.
      * 
      * @param filePath path to CSV file containing Node details
      */
-    public ReadNodeDetails(String filePath) {
-        System.out.println("Reading CSV file: " + filePath);
+    public ReadNodeDetails(String filePath) throws URISyntaxException, IOException {
+        logger.info("Reading CSV file: " + filePath);
         this.nodes = this.readNodesFromCSV(filePath);
     }
 
@@ -81,7 +86,7 @@ public class ReadNodeDetails {
      *
      * @return a list of {@code EoscNode} objects
      */
-    public ArrayList<EoscNode> getNodes() {
+    public List<EoscNode> getNodes() {
         return nodes;
     }
 
@@ -92,49 +97,26 @@ public class ReadNodeDetails {
      * @param filePath the path to the CSV file containing node details
      * @return a list of {@code EoscNode} objects parsed from the file
      */
-    public ArrayList<EoscNode> readNodesFromCSV(String filePath) {
-        ArrayList<EoscNode> nodes = new ArrayList<>();
+    public List<EoscNode> readNodesFromCSV(String filePath) 
+        throws URISyntaxException, IOException {
+        List<EoscNode> nodesList = new ArrayList<>();
+        List<EoscNode> tempNodesList = new ArrayList<>();
         
          try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
                 if (values.length == 7) {
-                    try {
-                        // get Node ID
-                        String id = values[0].trim();
-                        // get Node name
-                        String name = values[1].trim();
-                        // get Node logo
-                        URI logo = new URI(values[2].trim());
-                        // get Node PID
-                        String pid = values[3].trim();
-                        // get Node Legal Entity details block
-                        String legalEntityValues = values[4].trim();
-                        // parse legal Entity details to create LegalEntity
-                        LegalEntity legalEntity = readLegalEntityFromString(legalEntityValues);
-                        // get Node
-                        URI nodeEndpoint = new URI(values[5].trim());
-                        // get Node EoscCapabilities details block
-                        ArrayList<EoscCapability> capabilityList = readCapabilitiesFromString(values[6].trim());
-                        // Instantiate an EoscNode using values collected above
-                        EoscNode eoscNode = new EoscNode(id, name, logo, pid, legalEntity, nodeEndpoint,
-                                capabilityList);
-                        // add node to list of nodes
-                        nodes.add(eoscNode);
-                    } catch (NumberFormatException e) {
-                        System.err.println("Skipping invalid entry due to number format error.");
-                    } catch (URISyntaxException u) {
-                        System.err.println("Skipping invalid URI format: " + u);
-                    }
+                    tempNodesList = parseNodeDetail (values);
+                    nodesList.addAll(tempNodesList);
                 } else {
-                    System.out.println("Node values not available. Line length = " + values.length);
+                    logger.info("Node values not available. Line length = " + values.length);
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error reading file: " + e.getMessage());
+            logger.error("Error reading file: " + e.getMessage());
         }
-        return nodes;
+        return nodesList;
     }
 
     /**
@@ -155,7 +137,7 @@ public class ReadNodeDetails {
             legalEntity.setName(parts[0]);
             legalEntity.setRorId(new URI(parts[1]));
         } else {
-            System.out.println("Legal Entity values not available. Line length = " + parts.length);
+            logger.info("Legal Entity values not available. Line length = " + parts.length);
         }
         return legalEntity;
     }
@@ -169,9 +151,9 @@ public class ReadNodeDetails {
      * @throws IOException        if an error occurs while processing the input
      * @throws URISyntaxException if a URI format is invalid
      */
-    public static ArrayList<EoscCapability> readCapabilitiesFromString(String input)
-            throws IOException, URISyntaxException {
-        ArrayList<EoscCapability> capabilities = new ArrayList<>();
+    public static List<EoscCapability> readCapabilitiesFromString(String input)
+            throws URISyntaxException {
+        List<EoscCapability> capabilities = new ArrayList<>();
         String[] blocks = input.split("\\];\\[");
 
         for (String block : blocks) {
@@ -180,9 +162,50 @@ public class ReadNodeDetails {
             if (parts.length == 3) {
                 capabilities.add(new EoscCapability(parts[0], new URI(parts[1]), parts[2]));
             } else {
-                System.out.println("Capability values not available. Length = " + parts.length);
+                logger.info("Capability values not available. Length = " + parts.length);
             }
         }
         return capabilities;
+    }
+
+    /** 
+     * Parses the contents of a line from the CVS data file
+     * 
+     * @param values
+     * @return nodeList<EoscNode>
+     * @throws NumberFormatException
+     * @throws URISyntaxException
+     */
+    public static List<EoscNode> parseNodeDetail(String[] values) 
+        throws NumberFormatException, URISyntaxException, IOException {
+            List<EoscNode> nodesList = new ArrayList <>();
+        try {
+            // get Node ID
+            String id = values[0].trim();
+            // get Node name
+            String name = values[1].trim();
+            // get Node logo
+            URI logo = new URI(values[2].trim());
+            // get Node PID
+            String pid = values[3].trim();
+            // get Node Legal Entity details block
+            String legalEntityValues = values[4].trim();
+            // parse legal Entity details to create LegalEntity
+            LegalEntity legalEntity = readLegalEntityFromString(legalEntityValues);
+            // get Node
+            URI nodeEndpoint = new URI(values[5].trim());
+            // get Node EoscCapabilities details block
+            List<EoscCapability> capabilityList = readCapabilitiesFromString(values[6].trim());
+            // Instantiate an EoscNode using values collected above
+            EoscNode eoscNode = new EoscNode(id, name, logo, pid, legalEntity, nodeEndpoint,
+                    capabilityList);
+            // add node to list of nodes
+            nodesList.add(eoscNode);
+        } catch (NumberFormatException e) {
+            logger.error("Skipping invalid entry due to number format error.");
+        } catch (URISyntaxException u) {
+            logger.error("Skipping invalid URI format: " + u);
+        }
+        return nodesList;
     }
 }

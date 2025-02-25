@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ import com.google.gson.Gson;
 /**
  * Unit tests for the EoscNode class.
  */
-public class EoscNodeTest {
+class EoscNodeTest {
     private EoscNode node;
     private URI nodeEndpoint;
     private LegalEntity legalEntity;
@@ -42,7 +43,7 @@ public class EoscNodeTest {
      * Sets up the test environment before each test.
      */
     @BeforeEach
-    public void setUp() throws URISyntaxException {
+    void setUp() throws URISyntaxException {
         legalEntity = new LegalEntity("Test Entity",new URI("https://example.com/legal"));
         capabilities = new ArrayList<>();
         capabilities.add(new EoscCapability("Service Monitoring",new URI("https://example.com/api/service-monitoring"),"1.2"));
@@ -58,7 +59,7 @@ public class EoscNodeTest {
      * Tests the getId() and setId() methods.
      */
     @Test
-    public void testGetAndSetId() {
+    void testGetAndSetId() {
         node.setId ("2");
         assertEquals("2", node.getId());
     }
@@ -67,7 +68,7 @@ public class EoscNodeTest {
      * Tests the getName() and setName() methods.
      */
     @Test
-    public void testGetAndSetName() {
+    void testGetAndSetName() {
         node.setName("Updated Node");
         assertEquals("Updated Node", node.getName());
     }
@@ -76,7 +77,7 @@ public class EoscNodeTest {
      * Tests the getLogo() and setLogo() methods.
      */
     @Test
-    public void testGetAndSetLogo() throws URISyntaxException {
+    void testGetAndSetLogo() throws URISyntaxException {
         URI newLogo = new URI("https://example.com/new-logo");
         node.setLogo(newLogo);
         assertEquals(newLogo, node.getLogo());
@@ -86,7 +87,7 @@ public class EoscNodeTest {
      * Tests the getPid() and setPid() methods.
      */
     @Test
-    public void testGetAndSetPid() {
+    void testGetAndSetPid() {
         node.setPid("PID67890");
         assertEquals("PID67890", node.getPid());
     }
@@ -95,7 +96,7 @@ public class EoscNodeTest {
      * Tests the getLegalEntity() and setLegalEntity() methods.
      */
     @Test
-    public void testGetAndSetLegalEntity() {
+    void testGetAndSetLegalEntity() {
         LegalEntity newEntity = new LegalEntity("New Entity", URI.create("https://example.com/new-legal"));
         node.setLegalEntity(newEntity);
         assertEquals(newEntity, node.getLegalEntity());
@@ -105,7 +106,7 @@ public class EoscNodeTest {
      * Tests the getNodeEndpoint() and setNodeEndpoint() methods.
      */
     @Test
-    public void testGetAndSetNodeEndpoint() throws URISyntaxException {
+    void testGetAndSetNodeEndpoint() throws URISyntaxException {
         URI newEndpoint = new URI("https://example.com/new-endpoint");
         node.setNodeEndpoint(newEndpoint);
         assertEquals(newEndpoint, node.getNodeEndpoint());
@@ -115,7 +116,7 @@ public class EoscNodeTest {
      * Tests the getCapabilityList() and setCapabilityList() methods.
      */
     @Test
-    public void testGetAndSetCapabilityList() {
+    void testGetAndSetCapabilityList() {
         ArrayList<EoscCapability> newCapabilities = new ArrayList<>();
         newCapabilities.add(new EoscCapability("Identity Management",URI.create("https://example.com/api/identity-management"), "2.1"));
         node.setCapabilityList(newCapabilities);
@@ -126,7 +127,7 @@ public class EoscNodeTest {
      * Tests the toJson() method.
      */
     @Test
-    public void testToJson() {
+    void testToJson() {
         assertNotNull(node.toJson());
         assertTrue(node.toJson().contains("Test Node"));
     }
@@ -135,8 +136,8 @@ public class EoscNodeTest {
      * Tests the getCapabilityNames() method.
      */
     @Test
-    public void testGetCapabilityNames() {
-        ArrayList<String> capabilityNames = node.getCapabilityNames();
+    void testGetCapabilityNames() {
+        List<String> capabilityNames = node.getCapabilityNames();
         assertEquals(2,capabilityNames.size());
         assertEquals("Service Monitoring",capabilityNames.get(0));
         assertEquals("Resource Catalogue",capabilityNames.get(1));
@@ -147,10 +148,15 @@ public class EoscNodeTest {
         Gson gson = new Gson();
 
         // Expected JSON output
-        ArrayList<String> expectedList = new ArrayList<>(capabilityNames);
-        expectedList.addFirst(nodeEndpoint.toString()); // Should append the endpoint
+        List<String> expectedList = new ArrayList<>();
+        String endpoint = nodeEndpoint.toString();
+        String caps = gson.toJson(capabilities);
+        expectedList.add("node endpoint:");
+        expectedList.add(endpoint);
+        expectedList.add("capabilities:");
+        expectedList.add(caps);
         String expectedJson = gson.toJson(expectedList);
-
+        
         // Actual output from method
         String actualJson = node.getBasicNodeInfo();
 

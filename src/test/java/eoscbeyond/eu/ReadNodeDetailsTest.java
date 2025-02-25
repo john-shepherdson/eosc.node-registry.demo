@@ -27,19 +27,25 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ReadNodeDetailsTest {
     private File testCsvFile;
+    private static final Logger logger = LogManager.getLogger(ReadNodeDetailsTest.class);
 
+    /** 
+     * @throws IOException
+     */
     @BeforeEach
     void setUp() throws IOException {
         // Create a temporary test file
         testCsvFile = File.createTempFile("test_nodes", ".csv");
-        System.out.println("Test CSV File Created: " + testCsvFile.getAbsolutePath());
+        logger.info("Test CSV File Created: " + testCsvFile.getAbsolutePath());
         testCsvFile.deleteOnExit(); // Ensure the file is deleted after test runs
 
         // Ensure the file is writable
@@ -51,14 +57,18 @@ class ReadNodeDetailsTest {
         try (FileWriter writer = new FileWriter(testCsvFile)){
         writer.write("1,Test Node,http://example.com/logo.png,PID123,[Example Entity;http://example.com/ror],http://example.com/node,[Compute;http://example.com/cap;v1];[Storage;http://example.com/storage;v2]\n");
         writer.close();
-        System.out.println("Test CSV File Written Successfully!");
+        logger.info("Test CSV File Written Successfully!");
         }
     }
 
+    
+    /** 
+     * @throws URISyntaxException
+     */
     @Test
-    void testReadNodesFromCSV_ValidFile() {
+    void testReadNodesFromCSV_ValidFile() throws URISyntaxException, IOException {
         ReadNodeDetails reader = new ReadNodeDetails(testCsvFile.getAbsolutePath());
-        ArrayList<EoscNode> nodes = reader.getNodes();
+        List<EoscNode> nodes = reader.getNodes();
     
         assertNotNull(nodes, "Node list should not be null");
         assertFalse(nodes.isEmpty(), "Expected at least one node, but got an empty list.");
@@ -79,7 +89,7 @@ class ReadNodeDetailsTest {
         assertEquals(URI.create("http://example.com/ror"), entity.getRorId());
 
         // Validate Capabilities
-        ArrayList<EoscCapability> capabilities = node.getCapabilityList();
+        List<EoscCapability> capabilities = node.getCapabilityList();
         assertNotNull(capabilities);
         assertEquals(2, capabilities.size());
 
@@ -88,15 +98,20 @@ class ReadNodeDetailsTest {
         assertEquals("v1", capabilities.get(0).getVersion());
     }
 
+    
+    /** 
+     * @throws IOException
+     * @throws URISyntaxException
+     */
     @Test
-    void testReadNodesFromCSV_InvalidFormat() throws IOException {
+    void testReadNodesFromCSV_InvalidFormat() throws IOException, URISyntaxException {
         // Create an invalid CSV file (missing fields)
         FileWriter writer = new FileWriter(testCsvFile.getAbsolutePath());
         writer.write("2,Invalid Node,http://invalid.com/logo.png,PID999\n"); // Missing required fields
         writer.close();
 
         ReadNodeDetails reader = new ReadNodeDetails(testCsvFile.getAbsolutePath());
-        ArrayList<EoscNode> nodes = reader.getNodes();
+        List<EoscNode> nodes = reader.getNodes();
 
         assertTrue(nodes.isEmpty(), "Nodes list should be empty for invalid CSV format.");
     }
@@ -118,7 +133,7 @@ class ReadNodeDetailsTest {
 
     @Test
     void testReadCapabilitiesFromString_ValidData() throws URISyntaxException, IOException {
-        ArrayList<EoscCapability> capabilities = ReadNodeDetails.readCapabilitiesFromString("[AI;http://ai.com;v1];[BigData;http://bigdata.com;v2]");
+        List<EoscCapability> capabilities = ReadNodeDetails.readCapabilitiesFromString("[AI;http://ai.com;v1];[BigData;http://bigdata.com;v2]");
 
         assertNotNull(capabilities);
         assertEquals(2, capabilities.size());
@@ -129,13 +144,13 @@ class ReadNodeDetailsTest {
 
     @Test
     void testReadCapabilitiesFromString_InvalidData() throws URISyntaxException, IOException {
-        ArrayList<EoscCapability> capabilities = ReadNodeDetails.readCapabilitiesFromString("[Invalid Capability]");
+        List<EoscCapability> capabilities = ReadNodeDetails.readCapabilitiesFromString("[Invalid Capability]");
         assertTrue(capabilities.isEmpty(), "Capabilities list should be empty for invalid data.");
     }
 
 
     @Test
-    void testEmptyCSVFile() throws IOException {
+    void testEmptyCSVFile() throws IOException, URISyntaxException {
         // Create an empty CSV file
         FileWriter writer = new FileWriter(testCsvFile.getAbsolutePath());
         writer.write("");

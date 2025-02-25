@@ -27,6 +27,9 @@ RUN mvn dependency:resolve && mvn dependency:resolve-plugins
 COPY . .
 RUN mvn verify
 
+COPY target/node-registry-1.0-SNAPSHOT.jar node-registry-1.0-SNAPSHOT.jar
+CMD ["java", "-jar", "node-registry-1.0-SNAPSHOT.jar"]
+
 # Package
 FROM tomcat:10.1-jdk21 AS final
 WORKDIR /usr/local/tomcat/webapps

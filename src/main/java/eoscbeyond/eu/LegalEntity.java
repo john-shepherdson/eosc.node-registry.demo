@@ -31,7 +31,7 @@ import com.google.gson.Gson;
  *     URI rorUri = new URI("https://ror.org/12345");
  *     LegalEntity entity = new LegalEntity("Example Organisation", rorUri);
  *     String json = entity.toJson();
- *     System.out.println(json);
+ *     logger.info(json);
  * </pre>
  *
  * @author John Shepherdson
@@ -41,7 +41,7 @@ public class LegalEntity {
     // Name of legal entity
     private String name;
     // ROR ID of Legal entity
-    private URI ror_id;
+    private URI rorId;
 
     /**
      * Default constructor for LegalEntity.
@@ -52,11 +52,11 @@ public class LegalEntity {
     /**
      * Parameterised constructor for LegalEntity.
      * @param _name  Legal entity name
-     * @param _ror_id Legal entity ROR ID URI
+     * @param _rorId Legal entity ROR ID URI
      */
-    public LegalEntity(String _name, URI _ror_id) {
+    public LegalEntity(String _name, URI _rorId) {
         name = _name;
-        ror_id = _ror_id;
+        rorId = _rorId;
     }
 
      /**
@@ -64,15 +64,15 @@ public class LegalEntity {
      * @return the name of the legal entity
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
      * Sets the name of the legal entity.
-     * @param name the name of the legal entity
+     * @param _name the name of the legal entity
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String _name) {
+        this.name = _name;
     }
 
     /**
@@ -80,15 +80,15 @@ public class LegalEntity {
      * @return the ROR ID
      */
     public URI getRorId() {
-        return ror_id;
+        return this.rorId;
     }
 
     /**
      * Sets the ROR ID of the legal entity.
-     * @param ror_id the ROR ID
+     * @param _rorId the ROR ID
      */
-    public void setRorId(URI ror_id) {
-        this.ror_id = ror_id;
+    public void setRorId(URI _rorId) {
+        this.rorId = _rorId;
     }
 
     /**

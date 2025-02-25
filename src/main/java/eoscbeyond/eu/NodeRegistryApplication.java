@@ -15,7 +15,10 @@
  */
 package eoscbeyond.eu;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -33,21 +36,37 @@ import eoscbeyond.eu.data.Configuration;
 @EnableConfigurationProperties(Configuration.class)
 @SpringBootApplication
 public class NodeRegistryApplication extends SpringBootServletInitializer  {
-    public static void main(String[] args) {
+
+    
+    /** 
+     * @param args
+     */
+    public static void main(String[] args) throws URISyntaxException, IOException {
+        
         SpringApplication.run(NodeRegistryApplication.class, args);
         String filePath = "src/main/resources/nodes.csv";
-        ArrayList<EoscNode> nodeList = new ArrayList<>();
+    
+        List<EoscNode> nodeList = new ArrayList<EoscNode>();
         
         // Initialise the Node Registry - Read node details from CVS file
         ReadNodeDetails readNodeDetails = new ReadNodeDetails(filePath);
         nodeList = readNodeDetails.getNodes(); 
         new NodeRegistry(nodeList);
     }
+    
+    /** 
+     * @param application
+     * @return SpringApplicationBuilder
+     */
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(NodeRegistry.class);
     }
 
+    
+    /** 
+     * @return ObjectMapper
+     */
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
