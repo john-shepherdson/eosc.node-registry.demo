@@ -131,7 +131,6 @@ public class ReadNodeDetails {
                     logger.info("Node values not available. Line length = {}", values.length);
                 }
             }
-            br.close();
         } catch (IOException e) {
             logger.error("Error reading file: {}", e.getMessage());
         }
@@ -243,7 +242,7 @@ public class ReadNodeDetails {
         } catch (NumberFormatException e) {
             logger.error("Skipping invalid entry due to number format error.");
         } catch (URISyntaxException u) {
-            logger.error("Skipping invalid URI format: {}", u);
+            logger.error("Skipping invalid URI format: {}", u.toString());
         }
         return nodesList;
     }
