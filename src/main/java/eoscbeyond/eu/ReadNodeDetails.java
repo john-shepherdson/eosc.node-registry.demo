@@ -16,12 +16,18 @@
 package eoscbeyond.eu;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -77,7 +83,7 @@ public class ReadNodeDetails {
      * @param filePath path to CSV file containing Node details
      */
     public ReadNodeDetails(String filePath) throws URISyntaxException, IOException {
-        logger.info("Reading CSV file: " + filePath);
+        logger.info("Reading nodes from CSV file: {} ", filePath);
         this.nodes = this.readNodesFromCSV(filePath);
     }
 
@@ -97,24 +103,37 @@ public class ReadNodeDetails {
      * @param filePath the path to the CSV file containing node details
      * @return a list of {@code EoscNode} objects parsed from the file
      */
-    public List<EoscNode> readNodesFromCSV(String filePath) 
-        throws URISyntaxException, IOException {
+    public List<EoscNode> readNodesFromCSV(String filePath)
+            throws URISyntaxException, IOException {
         List<EoscNode> nodesList = new ArrayList<>();
         List<EoscNode> tempNodesList = new ArrayList<>();
-        
-         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+
+        String fileContents = getResourceFileAsString(filePath);
+        Path path = Path.of(filePath);
+        if (Files.exists(path)) {
+            fileContents = Files.readString(path, StandardCharsets.UTF_8);
+        } else {
+            fileContents = getResourceFileAsString(filePath);
+        }
+
+        if (fileContents == null) {
+            throw new IOException("File not found: " + filePath);
+        }
+
+        try (BufferedReader br = new BufferedReader(new StringReader(fileContents))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
                 if (values.length == 7) {
-                    tempNodesList = parseNodeDetail (values);
+                    tempNodesList = parseNodeDetail(values);
                     nodesList.addAll(tempNodesList);
                 } else {
-                    logger.info("Node values not available. Line length = " + values.length);
+                    logger.info("Node values not available. Line length = {}", values.length);
                 }
             }
+            br.close();
         } catch (IOException e) {
-            logger.error("Error reading file: " + e.getMessage());
+            logger.error("Error reading file: {}", e.getMessage());
         }
         return nodesList;
     }
@@ -137,7 +156,7 @@ public class ReadNodeDetails {
             legalEntity.setName(parts[0]);
             legalEntity.setRorId(new URI(parts[1]));
         } else {
-            logger.info("Legal Entity values not available. Line length = " + parts.length);
+            logger.info("Legal Entity values not available. Line length = {}", parts.length);
         }
         return legalEntity;
     }
@@ -162,13 +181,33 @@ public class ReadNodeDetails {
             if (parts.length == 3) {
                 capabilities.add(new EoscCapability(parts[0], new URI(parts[1]), parts[2]));
             } else {
-                logger.info("Capability values not available. Length = " + parts.length);
+                logger.info("Capability values not available. Length = {}", parts.length);
             }
         }
         return capabilities;
     }
 
-    /** 
+    /**
+     * Reads given resource file as a string.
+     *
+     * @param fileName path to the resource file
+     * @return the file's contents
+     * @throws IOException if read fails for any reason
+     */
+    static String getResourceFileAsString(String fileName) throws IOException {
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+
+        try (InputStream is = classLoader.getResourceAsStream(fileName)) {
+            if (is == null)
+                return null;
+            try (InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
+                    BufferedReader reader = new BufferedReader(isr)) {
+                return reader.lines().collect(Collectors.joining(System.lineSeparator()));
+            }
+        }
+    }
+
+    /**
      * Parses the contents of a line from the CVS data file
      * 
      * @param values
@@ -176,9 +215,9 @@ public class ReadNodeDetails {
      * @throws NumberFormatException
      * @throws URISyntaxException
      */
-    public static List<EoscNode> parseNodeDetail(String[] values) 
-        throws NumberFormatException, URISyntaxException, IOException {
-            List<EoscNode> nodesList = new ArrayList <>();
+    public static List<EoscNode> parseNodeDetail(String[] values)
+            throws NumberFormatException, URISyntaxException, IOException {
+        List<EoscNode> nodesList = new ArrayList<>();
         try {
             // get Node ID
             String id = values[0].trim();
@@ -204,7 +243,7 @@ public class ReadNodeDetails {
         } catch (NumberFormatException e) {
             logger.error("Skipping invalid entry due to number format error.");
         } catch (URISyntaxException u) {
-            logger.error("Skipping invalid URI format: " + u);
+            logger.error("Skipping invalid URI format: {}", u);
         }
         return nodesList;
     }

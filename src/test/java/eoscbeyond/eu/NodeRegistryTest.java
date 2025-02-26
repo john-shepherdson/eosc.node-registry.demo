@@ -32,7 +32,6 @@ import org.junit.jupiter.api.Test;
  * Unit tests for the {@code NodeRegistry} class.
  */
 class NodeRegistryTest {
-    private NodeRegistry nodeRegistry;
     private EoscNode node1;
     private EoscNode node2;
     private List<EoscNode> nodeList;
@@ -58,10 +57,10 @@ class NodeRegistryTest {
         node2 = new EoscNode("2", "Node Two", new URI("http://example.com/logo2"), "PID2", legalEntity, new URI("http://example.com/node2"), capabilities2);
 
         // Initialising registry
-        nodeList = new ArrayList<EoscNode>();
-        nodeList.add(node1);
-        nodeList.add(node2);
-        nodeRegistry = new NodeRegistry(nodeList);
+        this.nodeList = new ArrayList<EoscNode>();
+        this.nodeList.add(node1);
+        this.nodeList.add(node2);
+        new NodeRegistry(nodeList);
     }
 
     /**
@@ -69,8 +68,8 @@ class NodeRegistryTest {
      */
     @Test
     void testNodeRegistryInitialisation() {
-        assertNotNull(nodeRegistry.getNodes());
-        assertEquals(2, nodeRegistry.getNodes().size());
+        assertNotNull(NodeRegistry.getNodes());
+        assertEquals(2, NodeRegistry.getNodes().size());
     }
 
     /**
@@ -78,9 +77,9 @@ class NodeRegistryTest {
      */
     @Test
     void testSearchNodeById() {
-        assertEquals(node1, nodeRegistry.searchNodeById("1"));
-        assertEquals(node2, nodeRegistry.searchNodeById("2"));
-        assertNull(nodeRegistry.searchNodeById("999")); // Non-existent ID
+        assertEquals(node1, NodeRegistry.searchNodeById("1"));
+        assertEquals(node2, NodeRegistry.searchNodeById("2"));
+        assertNull(NodeRegistry.searchNodeById("999")); // Non-existent ID
     }
 
      /**
@@ -88,9 +87,9 @@ class NodeRegistryTest {
      */
     @Test
     void testSearchNodeSummaryById() {
-        assertTrue(nodeRegistry.searchNodeSummaryById("1").contains("http://example.com/node1"));
-        assertTrue(nodeRegistry.searchNodeSummaryById("2").contains("http://example.com/node2"));
-        assertNull(nodeRegistry.searchNodeSummaryById("999")); // Non-existent ID
+        assertTrue(NodeRegistry.searchNodeSummaryById("1").contains("http://example.com/node1"));
+        assertTrue(NodeRegistry.searchNodeSummaryById("2").contains("http://example.com/node2"));
+        assertNull(NodeRegistry.searchNodeSummaryById("999")); // Non-existent ID
     }
 
     /**
@@ -98,15 +97,15 @@ class NodeRegistryTest {
      */
     @Test
     void testSearchNodesByCapability() {
-        List<EoscNode> storageNodes = nodeRegistry.searchNodesByCapability("Resource Catalogue");
+        List<EoscNode> storageNodes = NodeRegistry.searchNodesByCapability("Resource Catalogue");
         assertEquals(1, storageNodes.size());
         assertEquals(node1, storageNodes.get(0));
 
-        List<EoscNode> computeNodes = nodeRegistry.searchNodesByCapability("Identity Management");
+        List<EoscNode> computeNodes = NodeRegistry.searchNodesByCapability("Identity Management");
         assertEquals(1, computeNodes.size());
         assertEquals(node2, computeNodes.get(0));
 
-        List<EoscNode> nonExistentNodes = nodeRegistry.searchNodesByCapability("Networking");
+        List<EoscNode> nonExistentNodes = NodeRegistry.searchNodesByCapability("Networking");
         assertTrue(nonExistentNodes.isEmpty()); // No nodes with this capability
     }
 
@@ -119,8 +118,8 @@ class NodeRegistryTest {
         EoscNode node3 = new EoscNode("3", "Node Three", new URI("http://example.com/logo3"), "PID3", new LegalEntity("Another Entity", new URI("http://example.com/ror3")), new URI("http://example.com/node3"), new ArrayList<>());
         newNodes.add(node3);
 
-        nodeRegistry.setNodes(newNodes);
-        assertEquals(1, nodeRegistry.getNodes().size());
-        assertEquals(node3, nodeRegistry.getNodes().get(0));
+        NodeRegistry.setNodes(newNodes);
+        assertEquals(1, NodeRegistry.getNodes().size());
+        assertEquals(node3, NodeRegistry.getNodes().get(0));
     }
 }

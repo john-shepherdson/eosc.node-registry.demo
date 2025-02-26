@@ -14,4 +14,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - *Fixed (for any bug fixes)*
 - *Security (in case of vulnerabilities)*
 
+## [1.2.0] 2025-02-26
+
+### Changed
+
+- Added Git workflow and associated files to lint the Markdown files
+- More clean ups, based on SonarQube recommendations
+
+### Fixed
+
+- Issue with Docker container not finding CSV file containing node details has been resolved
+
+## [1.1.0] 2025-02-25
+
+### Changed
+
+- README file now contains SQAAaaS badge
+- Docker file ensures jar file can be found and run
+- General clean up, based on SonarQube recommendations
+- Updated POM to support Jar packaging
+
 ## [1.0.0] 2025-02-24
+
+First release.
+
+Bug in Docker packaging means the CSV file containing the Node details is not found.

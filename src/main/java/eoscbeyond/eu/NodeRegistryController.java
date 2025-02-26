@@ -42,7 +42,7 @@ public class NodeRegistryController {
     public NodeRegistryController() {
     }
 
-    /** 
+    /**
      * @return ResponseEntity<List<EoscNode>>
      */
     @Operation(summary = "Get all nodes", description = "Retrieves the list of all registered nodes.")
@@ -51,7 +51,7 @@ public class NodeRegistryController {
         return ResponseEntity.ok(NodeRegistry.getNodes());
     }
 
-    /** 
+    /**
      * @param nodes List of EoscNodes
      * @return ResponseEntity<String>
      */
@@ -62,11 +62,11 @@ public class NodeRegistryController {
         return ResponseEntity.ok("Node list updated successfully");
     }
 
-    /** 
+    /**
      * @param id EoscNode ID
      * @return ResponseEntity<String> List of EoscNode summary details
      */
-    @Operation(summary = "Search node summary by ID", description = "Retrieves endpoint and capapility info for a node by its ID.")
+    @Operation(summary = "Search for node by ID", description = "Retrieves endpoint and capapility info for a node by its ID.")
     @GetMapping("/{id}")
     public ResponseEntity<String> getNodeSummaryById(@PathVariable String id) {
         String nodeSummary = NodeRegistry.searchNodeSummaryById(id);
@@ -77,15 +77,14 @@ public class NodeRegistryController {
         }
     }
 
-     /** 
+    /**
      * @param capability name of EoscCapability to search for
      * @return ResponseEntity<String> List of EoscNodes that have the capability
      */
-    @Operation(summary = "Search nodes by capability", description = "Finds nodes that offer a specific capability.")
+    @Operation(summary = "Search for nodes by capability", description = "Finds nodes that offer a specific capability.")
     @GetMapping("/search")
     public ResponseEntity<List<EoscNode>> searchNodesByCapability(@RequestParam String capability) {
         List<EoscNode> nodes = NodeRegistry.searchNodesByCapability(capability);
         return ResponseEntity.ok(nodes);
     }
 }
-
