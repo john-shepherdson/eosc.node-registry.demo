@@ -1,7 +1,7 @@
 # Contributing Guidelines
 
-Thank you for considering contributing to the EOSC Beyond Open Source code. 
-We welcome contributions from everyone, regardless of your level of experience. 
+Thank you for considering contributing to the EOSC Beyond Open Source code.
+We welcome contributions from everyone, regardless of your level of experience.
 This document outlines the process for contributing to the code.
 
 ## Ways of Contributing
@@ -15,7 +15,7 @@ If you find a bug in the code, please [open an issue](https://github.com/eoscbey
 
 ## Way of Working
 
-The following part describes the way of working when contributing to the code. 
+The following part describes the way of working when contributing to the code.
 Always also comply to the [Code of Conduct](./CODE_OF_CONDUCT.md) when contributing.
 
 ### Commit Messages
@@ -25,7 +25,7 @@ This will help us to automatically generate the changelog.
 
 For instance, the following commit message:
 
-```
+``` text
 - *Added (for new features)*
 - *Changed (for changes in existing functionality)*
 - *Deprecated (for soon-to-be removed features)*
@@ -44,7 +44,7 @@ When contributing to the code, please follow these steps:
 4. Push your changes.
 5. Open a pull request to the `nextRelease` branch of the main repository.
 
-Both `next` and `main` branches are protected and require a review before merging. 
+Both `next` and `main` branches are protected and require a review before merging.
 The `next` branch is used for the next release, while the `main` branch is used for the current release
 (and only release/hotfix PRs will be merged according to
 [Gitflow workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)).
