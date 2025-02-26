@@ -63,22 +63,22 @@ public class EoscNode {
 
     /**
      * Parameterized constructor for EoscNode.
-     * @param _id Node ID
-     * @param _name Node name
-     * @param _logo Node logo URI
-     * @param _pid Persistent identifier
-     * @param _legal_entity Legal entity associated with the node
-     * @param _node_endpoint Node endpoint URI
-     * @param _capabilityList List of capabilities
+     * @param xId Node ID
+     * @param xName Node name
+     * @param xLogo Node logo URI
+     * @param xPid Persistent identifier
+     * @param xLegalxEntity Legal entity associated with the node
+     * @param xNodexEndpoint Node endpoint URI
+     * @param xCapabilityList List of capabilities
      */
-    public EoscNode(String _id, String _name, URI _logo, String _pid, LegalEntity _legal_entity, URI _node_endpoint, List<EoscCapability> _capabilityList) {
-        this.id = _id;
-        this.name = _name;
-        this.logo = _logo;
-        this.pid = _pid;
-        this.legalEntity = _legal_entity;
-        this.nodeEndpoint = _node_endpoint;
-        this.capabilityList = _capabilityList;
+    public EoscNode(String xId, String xName, URI xLogo, String xPid, LegalEntity xLegalxEntity, URI xNodexEndpoint, List<EoscCapability> xCapabilityList) {
+        this.id = xId;
+        this.name = xName;
+        this.logo = xLogo;
+        this.pid = xPid;
+        this.legalEntity = xLegalxEntity;
+        this.nodeEndpoint = xNodexEndpoint;
+        this.capabilityList = xCapabilityList;
     }
 
     /**
@@ -93,10 +93,10 @@ public class EoscNode {
 
     /**
      * Sets the node ID.
-     * @param _id the node ID
+     * @param xId the node ID
      */
-    public void setId(String _id) {
-        this.id = _id;
+    public void setId(String xId) {
+        this.id = xId;
     }
 
     /**
@@ -163,8 +163,8 @@ public class EoscNode {
      * Sets the legal entity.
      * @param legalEntity the legal entity
      */
-    public void setLegalEntity(LegalEntity legal_entity) {
-        this.legalEntity = legal_entity;
+    public void setLegalEntity(LegalEntity legalxEntity) {
+        this.legalEntity = legalxEntity;
     }
 
     /**
@@ -178,10 +178,10 @@ public class EoscNode {
 
     /**
      * Sets the node endpoint URI.
-     * @param node_endpoint the node endpoint URI
+     * @param nodexEndpoint the node endpoint URI
      */
-    public void setNodeEndpoint(URI node_endpoint) {
-        this.nodeEndpoint = node_endpoint;
+    public void setNodeEndpoint(URI nodexEndpoint) {
+        this.nodeEndpoint = nodexEndpoint;
     }
 
     /**
@@ -197,8 +197,8 @@ public class EoscNode {
      * Sets the list of capabilities.
      * @param capabilityList the list of capabilities
      */
-    public void setCapabilityList(ArrayList<EoscCapability> _capabilityList) {
-        this.capabilityList = _capabilityList;
+    public void setCapabilityList(List<EoscCapability> xCapabilityList) {
+        this.capabilityList = xCapabilityList;
     }
 
     /**

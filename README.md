@@ -1,6 +1,6 @@
-[![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_silver.png)](https://api.eu.badgr.io/public/assertions/WwFLpKJ0SqqREmM0OZtzWw "SQAaaS silver badge achieved")
-
 # EOSC Node Registry (demo)
+
+[![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_silver.png)](https://api.eu.badgr.io/public/assertions/WwFLpKJ0SqqREmM0OZtzWw "SQAaaS silver badge achieved")
 
 This repository contains the source code for a demonstration version of the EOSC Node Registry.
 See the EOSC Node Registry Architecture document for further details.
@@ -57,7 +57,7 @@ export NODEREGISTRY_URL="http://localhost:1336"
 
 This project uses the standard Maven project structure.
 
-```
+``` text
 <ROOT>
 ├── .mvn                # Maven wrapper.
 ├── src                 # Contains all source code and assets for the application.
@@ -93,7 +93,7 @@ Several frameworks are used in this application.
 
 The initial list of nodes (and their attributes) is configured using [`nodes.cvs`](src/main/resources/nodes.cvs).
 
-```
+``` text
 Each line contains the details of a single node as a set of blocks.ttp client
 Each block is separated using a comma. Lists of items within a block are separate using a semicolon.
 The order of blocks is
@@ -105,7 +105,9 @@ The order of blocks is
  *     capabilities (list of triples [capability name;capability endpoint URI;capability version] separated by a semicolon)
 
 For example
-1,CESSDA Node,https://example.com/cessdalogo.png,hdl:20.500.12345/cessda,[CESSDA ERIC;https://cessda.eu/RORID],https://cessda.eu/api,[Service Monitoring;https://example.com/api/service-monitoring;1.2];[Resource Catalogue;https://example.com/api/resource-catalogue;3.0];[Management System (including Helpdesk);https://example.com/api/management-system;1.3]
+1,CESSDA Node,https://example.com/cessdalogo.png,hdl:20.500.12345/cessda,[CESSDA ERIC;https://cessda.eu/RORID],
+https://cessda.eu/api,[Service Monitoring;https://example.com/api/service-monitoring;1.2];
+[Resource Catalogue;https://example.com/api/resource-catalogue;3.0];[Management System (including Helpdesk);https://example.com/api/management-system;1.3]
 ```
 
 ## Resources
@@ -113,3 +115,15 @@ For example
 [Issue Tracker](https://github.com/john-shepherdson/eosc.node-registry.demo?status=new&status=open)
 
 [Swagger API docs](http://localhost:8080/swagger-ui/)
+
+### Running Swagger tests
+
+- for `Search for node by ID`, use any value between 1 to 10 inclusive
+- for `Search for nodes by capability`, use one of
+  - Resource Catalogue
+  - Identity Management
+  - Application Workflow Management
+  - Service Monitoring
+  - Service Accounting
+  - Order Management
+  - Management System (including Helpdesk)

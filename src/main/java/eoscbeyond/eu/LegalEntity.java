@@ -51,12 +51,12 @@ public class LegalEntity {
 
     /**
      * Parameterised constructor for LegalEntity.
-     * @param _name  Legal entity name
-     * @param _rorId Legal entity ROR ID URI
+     * @param xName  Legal entity name
+     * @param xRorId Legal entity ROR ID URI
      */
-    public LegalEntity(String _name, URI _rorId) {
-        name = _name;
-        rorId = _rorId;
+    public LegalEntity(String xName, URI xRorId) {
+        name = xName;
+        rorId = xRorId;
     }
 
      /**
@@ -69,10 +69,10 @@ public class LegalEntity {
 
     /**
      * Sets the name of the legal entity.
-     * @param _name the name of the legal entity
+     * @param xName the name of the legal entity
      */
-    public void setName(String _name) {
-        this.name = _name;
+    public void setName(String xName) {
+        this.name = xName;
     }
 
     /**
@@ -85,10 +85,10 @@ public class LegalEntity {
 
     /**
      * Sets the ROR ID of the legal entity.
-     * @param _rorId the ROR ID
+     * @param xRorId the ROR ID
      */
-    public void setRorId(URI _rorId) {
-        this.rorId = _rorId;
+    public void setRorId(URI xRorId) {
+        this.rorId = xRorId;
     }
 
     /**

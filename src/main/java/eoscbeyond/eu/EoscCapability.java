@@ -46,14 +46,14 @@ public class EoscCapability {
 
      /**
      * Parameterized constructor.
-     * @param _capabilityType the capability type
-     * @param _endpoint the endpoint URI
-     * @param _version the version
+     * @param xCapabilityType the capability type
+     * @param xEndpoint the endpoint URI
+     * @param xVersion the version
      */
-    public EoscCapability(String _capabilityType, URI _endpoint, String _version) {
-        this.capabilityType = _capabilityType;
-        this.endpoint = _endpoint;
-        this.version = _version;
+    public EoscCapability(String xCapabilityType, URI xEndpoint, String xVersion) {
+        this.capabilityType = xCapabilityType;
+        this.endpoint = xEndpoint;
+        this.version = xVersion;
     }
 
     /**
@@ -66,10 +66,10 @@ public class EoscCapability {
 
     /**
      * Sets the capability type.
-     * @param _capabilityType the capability type
+     * @param xCapabilityType the capability type
      */
-    public void setCapabilityType(String _capabilityType) {
-        this.capabilityType = _capabilityType;
+    public void setCapabilityType(String xCapabilityType) {
+        this.capabilityType = xCapabilityType;
     }
 
     /**
@@ -82,10 +82,10 @@ public class EoscCapability {
 
     /**
      * Sets the endpoint URI.
-     * @param _endpoint the endpoint URI
+     * @param xEndpoint the endpoint URI
      */
-    public void setEndpoint(URI _endpoint) {
-        this.endpoint = _endpoint;
+    public void setEndpoint(URI xEndpoint) {
+        this.endpoint = xEndpoint;
     }
 
     /**
@@ -98,10 +98,10 @@ public class EoscCapability {
 
     /**
      * Sets the version.
-     * @param _version the version
+     * @param xVersion the version
      */
-    public void setVersion(String _version) {
-        this.version = _version;
+    public void setVersion(String xVersion) {
+        this.version = xVersion;
     }
 
     /**

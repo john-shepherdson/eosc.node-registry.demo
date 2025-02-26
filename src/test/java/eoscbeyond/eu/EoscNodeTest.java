@@ -137,10 +137,10 @@ class EoscNodeTest {
      */
     @Test
     void testGetCapabilityNames() {
-        List<String> capabilityNames = node.getCapabilityNames();
-        assertEquals(2,capabilityNames.size());
-        assertEquals("Service Monitoring",capabilityNames.get(0));
-        assertEquals("Resource Catalogue",capabilityNames.get(1));
+        List<String> capNames = node.getCapabilityNames();
+        assertEquals(2,capNames.size());
+        assertEquals("Service Monitoring",capNames.get(0));
+        assertEquals("Resource Catalogue",capNames.get(1));
     }
 
     @Test

@@ -44,7 +44,7 @@ public class NodeRegistryApplication extends SpringBootServletInitializer  {
     public static void main(String[] args) throws URISyntaxException, IOException {
         
         SpringApplication.run(NodeRegistryApplication.class, args);
-        String filePath = "src/main/resources/nodes.csv";
+        String filePath = "nodes.csv";
     
         List<EoscNode> nodeList = new ArrayList<EoscNode>();
         

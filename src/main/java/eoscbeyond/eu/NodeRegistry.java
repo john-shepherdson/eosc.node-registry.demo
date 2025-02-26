@@ -55,23 +55,23 @@ public class NodeRegistry {
 
      /**
      * Constructor - creates instance with list of nodes.
-     * @param _nodes the list of EOSCNodes
+     * @param xNodes the list of EOSCNodes
      */
-    public NodeRegistry(List<EoscNode> _nodes) {
-        if (_nodes.isEmpty()) {
+    public NodeRegistry(List<EoscNode> xNodes) {
+        if (xNodes.isEmpty()) {
             logger.error("Node registry not initialised");
         } else {
-            NodeRegistry.nodes = _nodes;
-            logger.info("Node registry initialised. Number of nodes is " + _nodes.size());
+            NodeRegistry.nodes = xNodes;
+            logger.info("Node registry initialised. Number of nodes is {}", xNodes.size());
         }
     }
 
     /**
      * Set list of nodes stored in the registry.
-     * @param _nodes the list of EOSCNodes
+     * @param xNodes the list of EOSCNodes
      */
-    public static void setNodes(List<EoscNode> _nodes) {
-        NodeRegistry.nodes = _nodes;
+    public static void setNodes(List<EoscNode> xNodes) {
+        NodeRegistry.nodes = xNodes;
     }
 
     /**
@@ -85,15 +85,15 @@ public class NodeRegistry {
 
     /**
      * Search the registry for a node with a specified ID and return full details
-     * @param _id the ID of the node to search for
+     * @param xId the ID of the node to search for
      * @return matchingNode the EOSCNode that has the specified ID, otherwise null.
      */
     @Operation(summary = "Search node by ID", description = "Retrieves a node from the registry by its ID.")
     public static EoscNode searchNodeById(
-        @Parameter(description = "ID of the node to retrieve", required = true, example = "1") String _id) {
+        @Parameter(description = "ID of the node to retrieve", required = true, example = "1") String xId) {
         EoscNode matchingNode = null;
         for (EoscNode node : nodes) {
-            if (node.getId().equals(_id)) {
+            if (node.getId().equals(xId)) {
                 matchingNode = node;
                 break;
             }
@@ -103,15 +103,15 @@ public class NodeRegistry {
 
      /**
      * Search the registry for a node with a specified ID and return summary details
-     * @param _id the ID of the node to search for
+     * @param xId the ID of the node to search for
      * @return matchingNodeSummary summary of details of the EOSCNode that has the specified ID, otherwise null.
      */
     @Operation(summary = "Search node summary by ID", description = "Retrieves summary information for a node from the registry by its ID.")
     public static String searchNodeSummaryById(
-        @Parameter(description = "ID of the node to retrieve", required = true, example = "1") String _id) {
+        @Parameter(description = "ID of the node to retrieve", required = true, example = "1") String xId) {
         String matchingNodeSummary = null;
         for (EoscNode node : nodes) {
-            if (node.getId().equals(_id)) {
+            if (node.getId().equals(xId)) {
                 matchingNodeSummary = node.getBasicNodeInfo();
                 break;
             }
