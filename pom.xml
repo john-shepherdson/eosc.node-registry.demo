@@ -36,6 +36,8 @@
         <java.version>21</java.version>
         <!-- The main class to start by executing java -jar -->
         <start-class>eoscbeyond.eu.NodeRegistryApplication</start-class>
+        <sonar.organization>eosc-beyond-sqa</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <dependencyManagement>

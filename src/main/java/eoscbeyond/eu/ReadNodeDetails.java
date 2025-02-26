@@ -147,7 +147,7 @@ public class ReadNodeDetails {
      * @throws URISyntaxException if the URI format is invalid
      */
     public static LegalEntity readLegalEntityFromString(String legalEntityValues)
-            throws IOException, URISyntaxException {
+            throws URISyntaxException {
         LegalEntity legalEntity = new LegalEntity();
         legalEntityValues = legalEntityValues.replaceAll("[\\[\\]]", ""); // Remove brackets
         String[] parts = legalEntityValues.split(";");
