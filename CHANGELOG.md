@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - *Fixed (for any bug fixes)*
 - *Security (in case of vulnerabilities)*
 
+## [1.3.0] 2025-02-28
+
+### Fixed
+
+- Issue swith incorrect version of Java in build file was resolved
+
 ## [1.2.0] 2025-02-26
 
 ### Changed
