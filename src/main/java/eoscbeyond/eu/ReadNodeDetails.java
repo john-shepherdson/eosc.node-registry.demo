@@ -198,7 +198,7 @@ public class ReadNodeDetails {
 
         try (InputStream is = classLoader.getResourceAsStream(fileName)) {
             if (is == null)
-                return null;
+                throw new IOException("File not found in resources: " + fileName);
             try (InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
                     BufferedReader reader = new BufferedReader(isr)) {
                 return reader.lines().collect(Collectors.joining(System.lineSeparator()));
