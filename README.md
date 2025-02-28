@@ -13,8 +13,8 @@ Java 21 or greater is required to build and run this application.
 
 1. Check prerequisites and install any required software.
 2. Clone the repository to your local workspace.
-3. Build the application using `.\mvnw clean verify`.
-4. Run the application using the following command: `.\mvnw exec:java`.
+3. Build the application using `mvn clean verify`.
+4. Run the application using the following command: `mvn exec:java`.
 
 ## Getting Started
 
@@ -58,12 +58,14 @@ export NODEREGISTRY_URL="http://localhost:1336"
 This project uses the standard Maven project structure.
 
 ``` text
+
 <ROOT>
 ├── .mvn                # Maven wrapper.
 ├── src                 # Contains all source code and assets for the application.
 |   ├── main
 |   |   ├── java        # Contains release source code of the application.
 |   |   └── resources   # Contains release resources assets.
+|       └── wepapp      # Contains home page.
 |   └── test
 |       ├── java        # Contains test source code.
 |       └── resources   # Contains test resource assets.

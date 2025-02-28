@@ -49,7 +49,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  * @version 1.0
  */
 @Tag(name = "Node Registry", description = "Operations related to node management in the registry.")
-public class NodeRegistry {
+    class NodeRegistry {
     private static List<EoscNode> nodes;
     private static final Logger logger = LogManager.getLogger(NodeRegistry.class);
 
@@ -61,6 +61,7 @@ public class NodeRegistry {
         if (xNodes.isEmpty()) {
             logger.error("Node registry not initialised");
         } else {
+            // add nodes to singleton, for use by all other classes
             NodeRegistry.nodes = xNodes;
             logger.info("Node registry initialised. Number of nodes is {}", xNodes.size());
         }

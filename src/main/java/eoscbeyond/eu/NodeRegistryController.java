@@ -15,7 +15,6 @@
  */
 package eoscbeyond.eu;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -38,10 +37,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Node Registry", description = "Endpoints for managing node registry")
 public class NodeRegistryController {
 
-    // Constructor Injection
-    public NodeRegistryController() {
-    }
-
     /**
      * @return ResponseEntity<List<EoscNode>>
      */
@@ -57,7 +52,7 @@ public class NodeRegistryController {
      */
     @Operation(summary = "Set nodes", description = "Sets a new list of nodes in the registry.")
     @PostMapping("/set")
-    public ResponseEntity<String> setNodes(@RequestBody ArrayList<EoscNode> nodes) {
+    public ResponseEntity<String> setNodes(@RequestBody List<EoscNode> nodes) {
         NodeRegistry.setNodes(nodes);
         return ResponseEntity.ok("Node list updated successfully");
     }
