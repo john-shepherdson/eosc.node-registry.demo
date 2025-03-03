@@ -162,6 +162,18 @@
             </configuration>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>3.6.0</version>
+          <dependencies>
+            <dependency>
+              <groupId>com.puppycrawl.tools</groupId>
+              <artifactId>checkstyle</artifactId>
+              <version>9.3</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-dependency-plugin</artifactId>
             <executions>
@@ -200,18 +212,6 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-jar-plugin</artifactId>
             <version>3.4.2</version>
-            <configuration>
-                <configuration>
-                    <from>
-                        <image>eclipse-temurin@sha256:a0beb73cc0482c579ccff1a2df91024d8c01783d0772ad0c26f3817d3e9ad0b9</image>
-                    </from>
-            </configuration>
-                <archive>
-                    <manifest>
-                        <mainClass>${start.class}</mainClass>  <!-- Uses property -->
-                    </manifest>
-                </archive>
-            </configuration>
         </plugin>
         <!--SonarQube Support-->
         <plugin>

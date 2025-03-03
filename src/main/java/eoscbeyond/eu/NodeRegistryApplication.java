@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package eoscbeyond.eu;
 
 import java.io.IOException;
@@ -37,34 +38,35 @@ import eoscbeyond.eu.data.Configuration;
 @SpringBootApplication
 public class NodeRegistryApplication extends SpringBootServletInitializer  {
 
-    
-    /** 
+
+    /**
      * @param args
      */
-    public static void main(String[] args) throws URISyntaxException, IOException {
-        
+    public static void main(final String[] args) throws URISyntaxException,
+    IOException {
         SpringApplication.run(NodeRegistryApplication.class, args);
         String filePath = "nodes.csv";
-    
-        List<EoscNode> nodeList = new ArrayList<EoscNode>();
-        
+        List<EoscNode> nodeList = new ArrayList<>();
         // Initialise the Node Registry - Read node details from CVS file
         ReadNodeDetails readNodeDetails = new ReadNodeDetails(filePath);
-        nodeList = readNodeDetails.getNodes(); 
-        new NodeRegistry(nodeList);
+        nodeList = readNodeDetails.getNodes();
+
+        // Create and initialise the sole NodeRegistry instance.
+        NodeRegistry nodeRegistry = NodeRegistry.getInstance();
+        nodeRegistry.setNodes(nodeList);
     }
-    
-    /** 
+
+    /**
      * @param application
      * @return SpringApplicationBuilder
      */
     @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+    protected SpringApplicationBuilder configure(final SpringApplicationBuilder
+    application) {
         return application.sources(NodeRegistry.class);
     }
 
-    
-    /** 
+    /**
      * @return ObjectMapper
      */
     @Bean
@@ -74,5 +76,4 @@ public class NodeRegistryApplication extends SpringBootServletInitializer  {
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         return mapper;
     }
-
 }

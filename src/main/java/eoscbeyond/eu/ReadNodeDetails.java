@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package eoscbeyond.eu;
 
 import java.io.BufferedReader;
@@ -47,43 +48,72 @@ import org.apache.logging.log4j.Logger;
  * This class is useful for dynamically loading node information from external
  * data sources.
  * </p>
- * 
+ *
  * <p>
  * <strong>CSV Format Assumption:</strong>
  * </p>
  * The CSV file is expected to have the following format (semicolon-separated):
- * 
+ *
  * <pre>
- * ID;Name;LogoURI;PID;[LegalEntityName, ROR_URI];NodeEndpoint;[[Capability1, EndpointURI1, Version1],[Capability2, EndpointURI2, Version2]]
+ * ID;Name;LogoURI;PID;[LegalEntityName, ROR_URI];NodeEndpoint;
+ * [[Capability1, EndpointURI1, Version1],[Capability2, EndpointURI2, Version2]]
  * </pre>
- * 
+ *
  * <p>
  * Example:
  * </p>
- * 
+ *
  * <pre>
- * 1;Example Node;http://example.com/logo.png;PID123;[Example Entity, http://example.com/ror];http://example.com/node;[[Compute, http://example.com/cap, v1],[Storage, http://example.com/storage, v2]]
+ * 1;Example Node;http://example.com/logo.png;PID123;[Example Entity,
+ * http://example.com/ror];http://example.com/node;
+ * [[Compute, http://example.com/cap, v1],
+ * [Storage, http://example.com/storage, v2]]
  * </pre>
- * 
+ *
  * <p>
  * This ensures that the parsing logic works correctly with structured node
  * data.
  * </p>
- * 
+ *
  * @author John Shepherdson
  * @version 1.0
  */
 public class ReadNodeDetails {
-    private List<EoscNode> nodes = new ArrayList<EoscNode>();
-    private static final Logger logger = LogManager.getLogger(ReadNodeDetails.class);
+    /** Placeholder for list of nodes. */
+    private List<EoscNode> nodes = new ArrayList<>();
+    /** Logger. */
+    private static final Logger LOGGER =
+    LogManager.getLogger(ReadNodeDetails.class);
+    /** Number of elements per line in Node details file. */
+    private static final int ELEMENTS_PER_LINE = 7;
+    /** Number of elements in Legal Entity chunk of line. */
+    private static final int ELEMENTS_PER_LEGALENTITY = 2;
+    /** Number of elements in Capabilities chunk of line. */
+    private static final int ELEMENTS_PER_CAPABILITY = 3;
+    /** Position in line of Node ID chunk. */
+    private static final int NODE_ID_CHUNK = 0;
+     /** Position in line of Node name chunk. */
+     private static final int NODE_NAME_CHUNK = 1;
+    /** Position in line of Legal Entity logo chunk. */
+    private static final int LEGALENT_LOGO_CHUNK = 2;
+    /** Position in line of Node PID chunk. */
+    private static final int NODE_PID_CHUNK = 3;
+    /** Position in line of Legal Entity chunk. */
+    private static final int LEGALENT_CHUNK = 4;
+    /** Position in line of Node Endpoint chunk. */
+    private static final int NODE_ENDPOINT_CHUNK = 5;
+    /** Position in line of Node Capabilities chunk. */
+    private static final int NODE_CAPABILITIES_CHUNK = 6;
+
 
     /**
      * Parameterised constructor for LegalEntity.
-     * 
+     *
      * @param filePath path to CSV file containing Node details
      */
-    public ReadNodeDetails(String filePath) throws URISyntaxException, IOException {
-        logger.info("Reading nodes from CSV file: {} ", filePath);
+    public ReadNodeDetails(final String filePath) throws URISyntaxException,
+    IOException {
+        LOGGER.info("Reading nodes from CSV file: {} ", filePath);
         this.nodes = this.readNodesFromCSV(filePath);
     }
 
@@ -103,7 +133,7 @@ public class ReadNodeDetails {
      * @param filePath the path to the CSV file containing node details
      * @return a list of {@code EoscNode} objects parsed from the file
      */
-    public List<EoscNode> readNodesFromCSV(String filePath)
+    public List<EoscNode> readNodesFromCSV(final String filePath)
             throws URISyntaxException, IOException {
         List<EoscNode> nodesList = new ArrayList<>();
         List<EoscNode> tempNodesList = new ArrayList<>();
@@ -120,19 +150,21 @@ public class ReadNodeDetails {
             throw new IOException("File not found: " + filePath);
         }
 
-        try (BufferedReader br = new BufferedReader(new StringReader(fileContents))) {
+        try (BufferedReader br = new BufferedReader(new
+        StringReader(fileContents))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
-                if (values.length == 7) {
+                if (values.length == ELEMENTS_PER_LINE) {
                     tempNodesList = parseNodeDetail(values);
                     nodesList.addAll(tempNodesList);
                 } else {
-                    logger.info("Node values not available. Line length = {}", values.length);
+                    LOGGER.info("Node values not available. Line length = {}",
+                    values.length);
                 }
             }
         } catch (IOException e) {
-            logger.error("Error reading file: {}", e.getMessage());
+            LOGGER.error("Error reading file: {}", e.getMessage());
         }
         return nodesList;
     }
@@ -146,16 +178,19 @@ public class ReadNodeDetails {
      * @throws IOException        if an error occurs while processing the input
      * @throws URISyntaxException if the URI format is invalid
      */
-    public static LegalEntity readLegalEntityFromString(String legalEntityValues)
+    public static LegalEntity readLegalEntityFromString(
+        final String legalEntityValues)
             throws URISyntaxException {
         LegalEntity legalEntity = new LegalEntity();
-        legalEntityValues = legalEntityValues.replaceAll("[\\[\\]]", ""); // Remove brackets
-        String[] parts = legalEntityValues.split(";");
-        if (parts.length == 2) {
+        String cleanLegalEntityValues = legalEntityValues.replaceAll("[\\[\\]]",
+        ""); // Remove brackets
+        String[] parts = cleanLegalEntityValues.split(";");
+        if (parts.length == ELEMENTS_PER_LEGALENTITY) {
             legalEntity.setName(parts[0]);
             legalEntity.setRorId(new URI(parts[1]));
         } else {
-            logger.info("Legal Entity values not available. Line length = {}", parts.length);
+            LOGGER.info("Legal Entity values not available. Line length = {}",
+            parts.length);
         }
         return legalEntity;
     }
@@ -169,7 +204,8 @@ public class ReadNodeDetails {
      * @throws IOException        if an error occurs while processing the input
      * @throws URISyntaxException if a URI format is invalid
      */
-    public static List<EoscCapability> readCapabilitiesFromString(String input)
+    public static List<EoscCapability> readCapabilitiesFromString(
+        final String input)
             throws URISyntaxException {
         List<EoscCapability> capabilities = new ArrayList<>();
         String[] blocks = input.split("\\];\\[");
@@ -177,10 +213,12 @@ public class ReadNodeDetails {
         for (String block : blocks) {
             block = block.replaceAll("[\\[\\]]", ""); // Remove brackets
             String[] parts = block.split(";");
-            if (parts.length == 3) {
-                capabilities.add(new EoscCapability(parts[0], new URI(parts[1]), parts[2]));
+            if (parts.length == ELEMENTS_PER_CAPABILITY) {
+                capabilities.add(new EoscCapability(parts[0],
+                new URI(parts[1]), parts[2]));
             } else {
-                logger.info("Capability values not available. Length = {}", parts.length);
+                LOGGER.info("Capability values not available. Length = {}",
+                parts.length);
             }
         }
         return capabilities;
@@ -193,56 +231,64 @@ public class ReadNodeDetails {
      * @return the file's contents
      * @throws IOException if read fails for any reason
      */
-    static String getResourceFileAsString(String fileName) throws IOException {
+    static String getResourceFileAsString(final String fileName)
+    throws IOException {
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
 
         try (InputStream is = classLoader.getResourceAsStream(fileName)) {
-            if (is == null)
-                throw new IOException("File not found in resources: " + fileName);
-            try (InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
+            if (is == null) {
+                throw new IOException("File not found in resources: "
+                + fileName);
+            }
+            try (InputStreamReader isr =
+            new InputStreamReader(is, StandardCharsets.UTF_8);
                     BufferedReader reader = new BufferedReader(isr)) {
-                return reader.lines().collect(Collectors.joining(System.lineSeparator()));
+                return reader.lines().collect(Collectors.joining(
+                    System.lineSeparator()));
             }
         }
     }
 
     /**
-     * Parses the contents of a line from the CVS data file
-     * 
+     * Parses the contents of a line from the CVS data file.
+     *
      * @param values
      * @return nodeList<EoscNode>
      * @throws NumberFormatException
      * @throws URISyntaxException
      */
-    public static List<EoscNode> parseNodeDetail(String[] values)
-            throws NumberFormatException, URISyntaxException, IOException {
+    public static List<EoscNode> parseNodeDetail(final String[] values)
+            throws NumberFormatException, URISyntaxException {
         List<EoscNode> nodesList = new ArrayList<>();
         try {
             // get Node ID
-            String id = values[0].trim();
+            String id = values[NODE_ID_CHUNK].trim();
             // get Node name
-            String name = values[1].trim();
-            // get Node logo
-            URI logo = new URI(values[2].trim());
+            String name = values[NODE_NAME_CHUNK].trim();
+            // get Node Legal Entity logo
+            URI logo = new URI(values[LEGALENT_LOGO_CHUNK].trim());
             // get Node PID
-            String pid = values[3].trim();
-            // get Node Legal Entity details block
-            String legalEntityValues = values[4].trim();
+            String pid = values[NODE_PID_CHUNK].trim();
+            // get Node Legal Entity ROR ID
+            String legalEntityValues = values[LEGALENT_CHUNK].trim();
             // parse legal Entity details to create LegalEntity
-            LegalEntity legalEntity = readLegalEntityFromString(legalEntityValues);
-            // get Node
-            URI nodeEndpoint = new URI(values[5].trim());
+            LegalEntity legalEntity = readLegalEntityFromString(
+                legalEntityValues);
+            // get Node Endpoint
+            URI nodeEndpoint = new URI(values[NODE_ENDPOINT_CHUNK].trim());
             // get Node EoscCapabilities details block
-            List<EoscCapability> capabilityList = readCapabilitiesFromString(values[6].trim());
+            List<EoscCapability> capabilityList =
+            readCapabilitiesFromString(values[NODE_CAPABILITIES_CHUNK].trim());
             // Instantiate an EoscNode using values collected above
-            EoscNode eoscNode = new EoscNode(id, name, logo, pid, legalEntity, nodeEndpoint,
+            EoscNode eoscNode = new EoscNode(id, name, logo, pid, legalEntity,
+            nodeEndpoint,
                     capabilityList);
             // add node to list of nodes
             nodesList.add(eoscNode);
         } catch (NumberFormatException e) {
-            logger.error("Skipping invalid entry due to number format error.");
+            LOGGER.error("Skipping invalid entry due to number format error.");
         } catch (URISyntaxException u) {
-            logger.error("Skipping invalid URI format: {}", u.toString());
+            LOGGER.error("Skipping invalid URI format: {}", u.toString());
         }
         return nodesList;
     }

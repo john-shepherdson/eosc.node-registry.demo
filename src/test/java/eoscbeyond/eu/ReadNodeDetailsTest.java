@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package eoscbeyond.eu;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,25 +36,24 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class ReadNodeDetailsTest {
+    /**  Node detsils for tests. */
+    private static final String TEST_CSV_CONTENT =
+    "1,Test Node,http://example.com/logo.png,PID123,[Example Entity;http://example.com/ror],http://example.com/node,[Compute;http://example.com/cap;v1]\n2,Another Node,http://example.com/logo2.png,PID456,[Another Entity;http://example.com/ror2],http://example.com/node2,[Storage;http://example.com/storage;v2]";
 
-    private static final String TEST_CSV_CONTENT = "1,Test Node,http://example.com/logo.png,PID123,[Example Entity;http://example.com/ror],http://example.com/node,[Compute;http://example.com/cap;v1]\n2,Another Node,http://example.com/logo2.png,PID456,[Another Entity;http://example.com/ror2],http://example.com/node2,[Storage;http://example.com/storage;v2]";
-
+    /** */
     private Path tempCsvFilePath;
+    /** */
     private String tempCsvFile;
 
-    @TempDir
-    Path tempDir;
-
-    
     @BeforeEach
-    void setUp(@TempDir Path tempDir) throws IOException {
+    void setUp(@TempDir final Path tempDir) throws IOException {
         tempCsvFilePath = tempDir.resolve("testNodes.csv");
         tempCsvFile = tempCsvFilePath.getFileName().toString();
         Files.write(tempCsvFilePath, TEST_CSV_CONTENT.getBytes());
     }
 
     @Test
-    void testConstructor_WithValidCSV() throws URISyntaxException, IOException {
+    void testConstructorWithValidCSV() throws URISyntaxException, IOException {
         ReadNodeDetails reader = new ReadNodeDetails(tempCsvFile);
         List<EoscNode> nodes = reader.getNodes();
 
@@ -62,7 +62,8 @@ class ReadNodeDetailsTest {
     }
 
     @Test
-    void testConstructor_WithInvalidCSV() throws URISyntaxException, IOException {
+    void testConstructorWithInvalidCSV() throws URISyntaxException,
+    IOException {
         // Create an empty CSV file
         Files.write(tempCsvFilePath, new byte[0]);
 
@@ -70,11 +71,13 @@ class ReadNodeDetailsTest {
         List<EoscNode> nodes = reader.getNodes();
 
         assertNotNull(nodes);
-        assertEquals(0, nodes.size(), "Should return an empty list for an empty file");
+        assertEquals(0, nodes.size(),
+        "Should return an empty list for an empty file");
     }
 
     @Test
-    void testReadNodesFromCSV_ValidFile() throws URISyntaxException, IOException {
+    void testReadNodesFromCsvValidFile() throws URISyntaxException,
+    IOException {
         ReadNodeDetails reader = new ReadNodeDetails(tempCsvFile);
         List<EoscNode> nodes = reader.getNodes();
 
@@ -88,7 +91,8 @@ class ReadNodeDetailsTest {
     }
 
     @Test
-    void testReadNodesFromCSV_InvalidLine() throws URISyntaxException, IOException {
+    void testReadNodesFromCsvIInvalidLine() throws URISyntaxException,
+    IOException {
         String invalidContent = "Invalid line without enough fields\n";
         Files.write(tempCsvFilePath, invalidContent.getBytes());
 
@@ -96,15 +100,18 @@ class ReadNodeDetailsTest {
         List<EoscNode> nodes = reader.getNodes();
 
         assertNotNull(nodes);
-        assertTrue(nodes.isEmpty(), "Should return an empty list when CSV data is invalid");
+        assertTrue(nodes.isEmpty(),
+        "Should return an empty list when CSV data is invalid");
     }
 
     @Test
-    void testGetResourceFileAsString_FileNotFound() throws IOException {
+    void testGetResourceFileAsStringFileNotFound() {
         IOException thrown = Assertions.assertThrows(IOException.class, () -> {
             ReadNodeDetails.getResourceFileAsString("nonexistent.csv");
         });
-        Assertions.assertEquals("File not found in resources: nonexistent.csv", thrown.getMessage());
+        Assertions.assertEquals(
+            "File not found in resources: nonexistent.csv",
+            thrown.getMessage());
     }
 
       @Test
@@ -114,7 +121,7 @@ class ReadNodeDetailsTest {
         Files.write(tempCsvFilePath, emptyString.getBytes());
 
         ReadNodeDetails reader = new ReadNodeDetails(tempCsvFile);
-        assertTrue(reader.getNodes().isEmpty(), "Nodes list should be empty for an empty CSV file.");
+        assertTrue(reader.getNodes().isEmpty(),
+        "Nodes list should be empty for an empty CSV file.");
     }
-
 }

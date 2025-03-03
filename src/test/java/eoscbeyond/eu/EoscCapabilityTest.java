@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package eoscbeyond.eu;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,14 +30,16 @@ import com.google.gson.Gson;
  * Unit tests for the EoscCapability class.
  */
 class EoscCapabilityTest {
-    private EoscCapability capability;
+    /**  */
+  private EoscCapability capability;
 
     /**
      * Sets up the test environment before each test.
      */
     @BeforeEach
     void setUp() throws URISyntaxException {
-        capability = new EoscCapability("Service Monitoring", new URI("https://example.com/api/service-monitoring"),
+        capability = new EoscCapability("Service Monitoring",
+        new URI("https://example.com/api/service-monitoring"),
                 "1.2");
     }
 

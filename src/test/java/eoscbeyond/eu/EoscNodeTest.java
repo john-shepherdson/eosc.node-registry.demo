@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package eoscbeyond.eu;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,10 +34,15 @@ import com.google.gson.Gson;
  * Unit tests for the EoscNode class.
  */
 class EoscNodeTest {
+    /** EOSC node to test. */
     private EoscNode node;
+    /** Node endpoint to test. */
     private URI nodeEndpoint;
+    /**  Node legal entity to test. */
     private LegalEntity legalEntity;
+    /**  Node capabilities to test. */
     private ArrayList<EoscCapability> capabilities;
+    /**  List of node capability names. */
     private ArrayList<String> capabilityNames;
 
     /**
@@ -44,11 +50,21 @@ class EoscNodeTest {
      */
     @BeforeEach
     void setUp() throws URISyntaxException {
-        legalEntity = new LegalEntity("Test Entity",new URI("https://example.com/legal"));
+        legalEntity = new LegalEntity("Test Entity",
+        new URI("https://example.com/legal"));
         capabilities = new ArrayList<>();
-        capabilities.add(new EoscCapability("Service Monitoring",new URI("https://example.com/api/service-monitoring"),"1.2"));
-        capabilities.add(new EoscCapability("Resource Catalogue",new URI("https://example.com/api/resource-catalogue"),"3.0"));
-        node = new EoscNode("1", "Test Node",new URI("https://example.com/logo"),"PID12345",legalEntity,new URI("https://example.com/node-endpoint"),capabilities);
+        capabilities.add(new EoscCapability(
+            "Service Monitoring", new URI(
+                "https://example.com/api/service-monitoring"),
+                "1.2"));
+        capabilities.add(new EoscCapability(
+            "Resource Catalogue",
+            new URI("https://example.com/api/resource-catalogue"),
+            "3.0"));
+        node = new EoscNode("1", "Test Node",
+        new URI("https://example.com/logo"), "PID12345",
+        legalEntity, new URI("https://example.com/node-endpoint"),
+        capabilities);
         nodeEndpoint = new URI("https://example.com/node-endpoint");
         capabilityNames = new ArrayList<>();
         capabilityNames.add("Service Monitoring");
@@ -60,7 +76,7 @@ class EoscNodeTest {
      */
     @Test
     void testGetAndSetId() {
-        node.setId ("2");
+        node.setId("2");
         assertEquals("2", node.getId());
     }
 
@@ -97,7 +113,8 @@ class EoscNodeTest {
      */
     @Test
     void testGetAndSetLegalEntity() {
-        LegalEntity newEntity = new LegalEntity("New Entity", URI.create("https://example.com/new-legal"));
+        LegalEntity newEntity = new LegalEntity("New Entity",
+        URI.create("https://example.com/new-legal"));
         node.setLegalEntity(newEntity);
         assertEquals(newEntity, node.getLegalEntity());
     }
@@ -118,7 +135,9 @@ class EoscNodeTest {
     @Test
     void testGetAndSetCapabilityList() {
         ArrayList<EoscCapability> newCapabilities = new ArrayList<>();
-        newCapabilities.add(new EoscCapability("Identity Management",URI.create("https://example.com/api/identity-management"), "2.1"));
+        newCapabilities.add(new EoscCapability(
+            "Identity Management",
+            URI.create("https://example.com/api/identity-management"), "2.1"));
         node.setCapabilityList(newCapabilities);
         assertEquals(newCapabilities, node.getCapabilityList());
     }
@@ -138,9 +157,9 @@ class EoscNodeTest {
     @Test
     void testGetCapabilityNames() {
         List<String> capNames = node.getCapabilityNames();
-        assertEquals(2,capNames.size());
-        assertEquals("Service Monitoring",capNames.get(0));
-        assertEquals("Resource Catalogue",capNames.get(1));
+        assertEquals(2, capNames.size());
+        assertEquals("Service Monitoring", capNames.get(0));
+        assertEquals("Resource Catalogue", capNames.get(1));
     }
 
     @Test
@@ -156,11 +175,11 @@ class EoscNodeTest {
         expectedList.add("capabilities:");
         expectedList.add(caps);
         String expectedJson = gson.toJson(expectedList);
-        
         // Actual output from method
         String actualJson = node.getBasicNodeInfo();
 
         // Assert expected and actual match
-        assertEquals(expectedJson, actualJson, "getBasicNodeInfo() did not return the expected JSON string.");
+        assertEquals(expectedJson, actualJson,
+        "getBasicNodeInfo() did not return the expected JSON string.");
     }
 }

@@ -14,6 +14,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - *Fixed (for any bug fixes)*
 - *Security (in case of vulnerabilities)*
 
+## [1.4.0] 2025-03-03
+
+### Changed
+
+- More clean ups, based on Checkstyle (Sun configuration) recommendations
+
+### Fixed
+
+- Used Singleton pattern to create sole instance of NodeRegistry
+- Moved Jenkinsfile to top level of directory structure
+
 ## [1.3.0] 2025-02-28
 
 ### Fixed
@@ -29,7 +40,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- Issue with Docker container not finding CSV file containing node details has been resolved
+- Issue with Docker container not finding CSV file containing node details has
+been resolved
 
 ## [1.1.0] 2025-02-25
 
