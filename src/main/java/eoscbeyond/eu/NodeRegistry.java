@@ -73,16 +73,12 @@ public class NodeRegistry {
     /**
      * Get the sole instance of NodeRegistry.
      * Create and initialise it if it does not exist already.
-     * @return nodeRegistry sole instance of NodeRegistry
+     * @return nodeRegistry sole instance of NodeRegistry.
      */
-    public static NodeRegistry getInstance() {
-        if (nodeRegistry == null) {
-            synchronized (NodeRegistry.class) {
+    public static synchronized NodeRegistry getInstance() {
                 if (nodeRegistry == null) {
                     nodeRegistry = new NodeRegistry();
                 }
-            }
-        }
         return nodeRegistry;
     }
 

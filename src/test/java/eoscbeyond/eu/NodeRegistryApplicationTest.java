@@ -60,7 +60,7 @@ class NodeRegistryApplicationTest {
     private List<EoscNode> mockNodes;
 
     @BeforeEach
-    void setUp() throws IOException, URISyntaxException {
+    void setUp() {
         mockNodes = new ArrayList<>();
         when(readNodeDetailsMock.getNodes()).thenReturn(mockNodes);
     }

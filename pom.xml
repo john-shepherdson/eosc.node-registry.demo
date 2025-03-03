@@ -130,9 +130,9 @@
       <version>0.5.0</version>
     </dependency>
     <dependency>
-        <groupId>org.hibernate.validator</groupId>
-        <artifactId>hibernate-validator</artifactId>
-    <version>8.0.1.Final</version>  <!-- Use latest version -->
+      <groupId>org.codehaus.groovy</groupId>
+      <artifactId>groovy</artifactId>
+      <version>2.5.8</version>
     </dependency>
   </dependencies>
   <profiles>
