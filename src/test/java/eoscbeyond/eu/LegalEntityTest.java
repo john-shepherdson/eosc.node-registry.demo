@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package eoscbeyond.eu;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,6 +30,7 @@ import com.google.gson.Gson;
  * Unit tests for the LegalEntity class.
  */
 class LegalEntityTest {
+    /** Legal entity to test. */
     private LegalEntity legalEntity;
 
     /**
@@ -36,7 +38,8 @@ class LegalEntityTest {
      */
     @BeforeEach
     void setUp() throws URISyntaxException {
-        legalEntity = new LegalEntity("Example Corp", new URI("https://ror.org/12345"));
+        legalEntity = new LegalEntity("Example Corp",
+        new URI("https://ror.org/12345"));
     }
 
     /**

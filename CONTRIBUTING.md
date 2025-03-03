@@ -45,11 +45,13 @@ When contributing to the code, please follow these steps:
 5. Open a pull request to the `nextRelease` branch of the main repository.
 
 Both `next` and `main` branches are protected and require a review before merging.
-The `next` branch is used for the next release, while the `main` branch is used for the current release
+The `next` branch is used for the next release, while the `main` branch is used
+for the current release
 (and only release/hotfix PRs will be merged according to
 [Gitflow workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)).
 
 ### Crediting Contributors
 
 We will credit all contributors. If you would like to be credited,
-please add your name and related information to the [CONTRIBUTORS.md](./CONTRIBUTORS.md) and [CITATION.cff](./CITATION.cff) files.
+please add your name and related information to the 
+[CONTRIBUTORS.md](./CONTRIBUTORS.md) and [CITATION.cff](./CITATION.cff) files.

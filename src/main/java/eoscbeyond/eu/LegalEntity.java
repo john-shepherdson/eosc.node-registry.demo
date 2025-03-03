@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package eoscbeyond.eu;
 
 import java.net.URI;
@@ -20,27 +21,33 @@ import java.net.URI;
 import com.google.gson.Gson;
 
 /**
- * The {@code LegalEntity} class represents a legal entity with a name and a ROR (Research Organisation Registry) ID.
+ * The {@code LegalEntity} class represents a legal entity with a name and a
+ * ROR (Research Organisation Registry) ID.
  * <p>
- * This class provides methods to retrieve and modify the legal entity's name and ROR ID.
- * Additionally, it includes functionality to convert the object into a JSON representation.
+ * This class provides methods to retrieve and modify the legal entity's name
+ * and ROR ID.
+ * Additionally, it includes functionality to convert the object into a JSON
+ * representation.
  * </p>
  *
- * <p>Example usage:</p>
+ * <p>
+ * Example usage:
+ * </p>
+ *
  * <pre>
- *     URI rorUri = new URI("https://ror.org/12345");
- *     LegalEntity entity = new LegalEntity("Example Organisation", rorUri);
- *     String json = entity.toJson();
- *     logger.info(json);
+ * URI rorUri = new URI("https://ror.org/12345");
+ * LegalEntity entity = new LegalEntity("Example Organisation", rorUri);
+ * String json = entity.toJson();
+ * logger.info(json);
  * </pre>
  *
  * @author John Shepherdson
  * @version 1.0
  */
 public class LegalEntity {
-    // Name of legal entity
+    /** Name of legal entity. */
     private String name;
-    // ROR ID of Legal entity
+    /** Research Organization Registry (ROR) ID of legal entity. */
     private URI rorId;
 
     /**
@@ -51,16 +58,18 @@ public class LegalEntity {
 
     /**
      * Parameterised constructor for LegalEntity.
+     *
      * @param xName  Legal entity name
      * @param xRorId Legal entity ROR ID URI
      */
-    public LegalEntity(String xName, URI xRorId) {
+    public LegalEntity(final String xName, final URI xRorId) {
         name = xName;
         rorId = xRorId;
     }
 
-     /**
+    /**
      * Gets the name of the legal entity.
+     *
      * @return the name of the legal entity
      */
     public String getName() {
@@ -69,14 +78,16 @@ public class LegalEntity {
 
     /**
      * Sets the name of the legal entity.
+     *
      * @param xName the name of the legal entity
      */
-    public void setName(String xName) {
+    public void setName(final String xName) {
         this.name = xName;
     }
 
     /**
      * Gets the ROR ID of the legal entity.
+     *
      * @return the ROR ID
      */
     public URI getRorId() {
@@ -85,19 +96,20 @@ public class LegalEntity {
 
     /**
      * Sets the ROR ID of the legal entity.
+     *
      * @param xRorId the ROR ID
      */
-    public void setRorId(URI xRorId) {
+    public void setRorId(final URI xRorId) {
         this.rorId = xRorId;
     }
 
     /**
-    * Converts this object to a JSON representation.
-    * @return JSON string representation of this object
-    */
+     * Converts this object to a JSON representation.
+     *
+     * @return JSON string representation of this object
+     */
     public String toJson() {
         Gson gson = new Gson();
         return gson.toJson(this);
     }
 }
-

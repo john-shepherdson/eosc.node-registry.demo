@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package eoscbeyond.eu.data;
 
 import java.net.URI;
@@ -25,20 +26,28 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public record Configuration(
     URI noderegistryUrl
 ) {
-    private static final URI DEFAULT_NODEREGISTRY_URL = URI.create("http://localhost:1336/");
+    /** Defult URL. */
+    private static final URI DEFAULT_NODEREGISTRY_URL =
+    URI.create("http://localhost:1336/");
 
-    private static final Logger log = LogManager.getLogger(Configuration.class);
+   /** Logger. */
+    private static final Logger LOGGER =
+    LogManager.getLogger(Configuration.class);
 
+    /** Constructor. */
     public Configuration {
         if (noderegistryUrl != null) {
             if (noderegistryUrl.getScheme().startsWith("http")) {
-                log.info("Using Node Registry {}", noderegistryUrl);
+                LOGGER.info("Using Node Registry {}", noderegistryUrl);
             } else {
-                throw new IllegalStateException("Invalid scheme \"" + noderegistryUrl.getScheme() + "\" in Node Registry URI \"" + noderegistryUrl + "\"");
+                throw new IllegalStateException("Invalid scheme \""
+                + noderegistryUrl.getScheme() + "\" in Node Registry URI \""
+                + noderegistryUrl + "\"");
             }
         } else {
             // This makes sure a node registry URL is always configured
-            log.info("Using default node registry {}", DEFAULT_NODEREGISTRY_URL);
+            LOGGER.info("Using default node registry {}",
+            DEFAULT_NODEREGISTRY_URL);
             noderegistryUrl = DEFAULT_NODEREGISTRY_URL;
         }
     }

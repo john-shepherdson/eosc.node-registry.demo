@@ -21,10 +21,11 @@ Java 21 or greater is required to build and run this application.
 To compile this application, run:
 
 ```bash
-mvn install 
+mvn install
 ```
 
-This will create a WAR suitable for deploying on Java Application servers (e.g. Tomcat, Jetty...).
+This will create a WAR suitable for deploying on Java Application servers
+(e.g. Tomcat, Jetty...).
 
 To compile and run this application locally run:
 
@@ -97,19 +98,24 @@ The initial list of nodes (and their attributes) is configured using [`nodes.cvs
 
 ``` text
 Each line contains the details of a single node as a set of blocks.ttp client
-Each block is separated using a comma. Lists of items within a block are separate using a semicolon.
+Each block is separated using a comma. Lists of items within a block are separate
+using a semicolon.
 The order of blocks is
- *     node ID
- *     node name
- *     logo URI
- *     PID URI
- *     legal entity [Legal Entity Name;Legal Entity ROR ID]
- *     capabilities (list of triples [capability name;capability endpoint URI;capability version] separated by a semicolon)
+ *  node ID
+ *  node name
+ *  logo URI
+ *  PID URI
+ *   legal entity [Legal Entity Name;Legal Entity ROR ID]
+ *   capabilities
+      - list of triples separated by a semicolon
+      - [capability name;capability endpoint URI; capability version]
 
 For example
-1,CESSDA Node,https://example.com/cessdalogo.png,hdl:20.500.12345/cessda,[CESSDA ERIC;https://cessda.eu/RORID],
+1,CESSDA Node,https://example.com/cessdalogo.png,hdl:20.500.12345/cessda
+[CESSDA ERIC;https://cessda.eu/RORID],
 https://cessda.eu/api,[Service Monitoring;https://example.com/api/service-monitoring;1.2];
-[Resource Catalogue;https://example.com/api/resource-catalogue;3.0];[Management System (including Helpdesk);https://example.com/api/management-system;1.3]
+[Resource Catalogue;https://example.com/api/resource-catalogue;3.0];
+[Management System (including Helpdesk);https://example.com/api/management-system;1.3]
 ```
 
 ## Resources
