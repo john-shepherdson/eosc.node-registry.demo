@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - Used Singleton pattern to create sole instance of NodeRegistry
+- Moved Jenkinsfile to top level of directory structure
 
 ## [1.2.0] 2025-02-26
 
