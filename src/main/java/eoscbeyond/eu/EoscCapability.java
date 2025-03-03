@@ -43,8 +43,6 @@ import com.google.gson.Gson;
  * logger.info(json);
  * </pre>
  *
- * @author John Shepherdson
- * @version 1.0
  */
 public class EoscCapability {
   /** Name of Capability. */

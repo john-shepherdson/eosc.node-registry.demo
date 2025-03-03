@@ -38,7 +38,6 @@ import eoscbeyond.eu.data.Configuration;
 @SpringBootApplication
 public class NodeRegistryApplication extends SpringBootServletInitializer  {
 
-
     /**
      * @param args
      */

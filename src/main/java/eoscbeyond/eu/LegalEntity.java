@@ -41,8 +41,6 @@ import com.google.gson.Gson;
  * logger.info(json);
  * </pre>
  *
- * @author John Shepherdson
- * @version 1.0
  */
 public class LegalEntity {
     /** Name of legal entity. */

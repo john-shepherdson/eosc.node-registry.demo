@@ -75,8 +75,6 @@ import org.apache.logging.log4j.Logger;
  * data.
  * </p>
  *
- * @author John Shepherdson
- * @version 1.0
  */
 public class ReadNodeDetails {
     /** Placeholder for list of nodes. */
@@ -158,6 +156,7 @@ public class ReadNodeDetails {
                 if (values.length == ELEMENTS_PER_LINE) {
                     tempNodesList = parseNodeDetail(values);
                     nodesList.addAll(tempNodesList);
+                    LOGGER.info("Node values available");
                 } else {
                     LOGGER.info("Node values not available. Line length = {}",
                     values.length);
@@ -166,6 +165,7 @@ public class ReadNodeDetails {
         } catch (IOException e) {
             LOGGER.error("Error reading file: {}", e.getMessage());
         }
+        LOGGER.info("Node list size = {}", nodesList.size());
         return nodesList;
     }
 
@@ -188,6 +188,7 @@ public class ReadNodeDetails {
         if (parts.length == ELEMENTS_PER_LEGALENTITY) {
             legalEntity.setName(parts[0]);
             legalEntity.setRorId(new URI(parts[1]));
+            LOGGER.info("Legal Entity values available.");
         } else {
             LOGGER.info("Legal Entity values not available. Line length = {}",
             parts.length);
@@ -221,6 +222,7 @@ public class ReadNodeDetails {
                 parts.length);
             }
         }
+        LOGGER.info("Number of Capabilities found = {}", capabilities.size());
         return capabilities;
     }
 
@@ -265,6 +267,7 @@ public class ReadNodeDetails {
             String id = values[NODE_ID_CHUNK].trim();
             // get Node name
             String name = values[NODE_NAME_CHUNK].trim();
+            LOGGER.info("Getting details for {}", name);
             // get Node Legal Entity logo
             URI logo = new URI(values[LEGALENT_LOGO_CHUNK].trim());
             // get Node PID
