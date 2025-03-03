@@ -271,30 +271,29 @@
                 <mainClass>${start.class}</mainClass> <!-- Uses the property -->
             </configuration>
         </plugin>
+        <!-- Test coverage -->
         <plugin>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.12</version>
-            <executions>
-                <execution>
-                    <id>default-prepare-agent</id>
-                    <goals>
-                        <goal>prepare-agent</goal>
-                    </goals>
-                </execution>
-                <execution>
-                    <id>default-report</id>
-                    <goals>
-                        <goal>report</goal>
-                    </goals>
-                    <configuration>
-                        <formats>
-                        <format>XML</format>
-                        </formats>
-                    </configuration>
-                </execution>
-            </executions>
-            </plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.12</version>
+				<executions>
+					<execution>
+						<id>prepare-agent-for-unit-tests</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report-for-unit-tests</id>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<title>Coverage with JaCoCo and Maven</title>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
         <!-- Surefire -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
