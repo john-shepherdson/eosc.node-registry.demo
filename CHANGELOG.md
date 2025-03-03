@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - *Fixed (for any bug fixes)*
 - *Security (in case of vulnerabilities)*
 
-## [1.3.0] 2025-03-03
+## [1.4.0] 2025-03-03
 
 ### Changed
 
@@ -24,6 +24,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Used Singleton pattern to create sole instance of NodeRegistry
 - Moved Jenkinsfile to top level of directory structure
+
+## [1.3.0] 2025-02-28
+
+### Fixed
+
+- Issue swith incorrect version of Java in build file was resolved
 
 ## [1.2.0] 2025-02-26
 
