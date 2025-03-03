@@ -62,4 +62,5 @@ nbdist/
 .nb-gradle/
 .vscode/
 bin/
+quit
 

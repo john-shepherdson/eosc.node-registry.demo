@@ -132,7 +132,7 @@
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy</artifactId>
-      <version>2.5.8</version>
+      <version>3.0.24</version>
     </dependency>
   </dependencies>
   <profiles>
@@ -236,6 +236,7 @@
                   <exclude>mvnw*</exclude>
                   <exclude>.mvn/**</exclude>
                   <exclude>.*</exclude>
+                   <exclude>quit</exclude>
                   <exclude>Jenkinsfile</exclude>
                   <exclude>LICENSE.txt</exclude>
                   <exclude>*.md</exclude>
