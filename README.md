@@ -2,7 +2,8 @@
 
 [![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_silver.png)](https://api.eu.badgr.io/public/assertions/WwFLpKJ0SqqREmM0OZtzWw "SQAaaS silver badge achieved")
 
-This repository contains the source code for a demonstration version of the EOSC Node Registry.
+This repository contains the source code for a demonstration version of the
+EOSC Node Registry.
 See the EOSC Node Registry Architecture document for further details.
 
 ## Prerequisites

@@ -6,12 +6,16 @@ This document outlines the process for contributing to the code.
 
 ## Ways of Contributing
 
-- **Reporting Issues**: If you find a bug in the code, please open an issue on the GitHub repository.
-- **Suggesting Enhancements**: If you have an idea for improving the code, please open an issue on the GitHub repository.
+- **Reporting Issues**: If you find a bug in the code, please open an issue on the
+GitHub repository.
+- **Suggesting Enhancements**: If you have an idea for improving the code, please
+open an issue on the GitHub repository.
 
 ## Issue Reporting
 
-If you find a bug in the code, please [open an issue](https://github.com/eoscbeyond/noderegistrydemo/issues/new) in the GitHub repository.
+If you find a bug in the code, please
+[open an issue](https://github.com/eoscbeyond/noderegistrydemo/issues/new) in the
+GitHub repository.
 
 ## Way of Working
 
@@ -20,7 +24,8 @@ Always also comply to the [Code of Conduct](./CODE_OF_CONDUCT.md) when contribut
 
 ### Commit Messages
 
-Please follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification when writing commit messages.
+Please follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+specification when writing commit messages.
 This will help us to automatically generate the changelog.
 
 For instance, the following commit message:
@@ -53,5 +58,5 @@ for the current release
 ### Crediting Contributors
 
 We will credit all contributors. If you would like to be credited,
-please add your name and related information to the 
+please add your name and related information to the
 [CONTRIBUTORS.md](./CONTRIBUTORS.md) and [CITATION.cff](./CITATION.cff) files.
