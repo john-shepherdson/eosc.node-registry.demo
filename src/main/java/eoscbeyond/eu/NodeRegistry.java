@@ -62,10 +62,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 "Operations related to node management in the registry.")
 public class NodeRegistry {
     /**  */
-    private static volatile NodeRegistry instance = null;
+    private static NodeRegistry nodeRegistry = null;
 
     /** List of registered nodes. */
-    private static List<EoscNode> nodes;
+    private List<EoscNode> nodes;
     /** Logger. */
     private static final Logger LOGGER =
     LogManager.getLogger(NodeRegistry.class);
@@ -73,17 +73,17 @@ public class NodeRegistry {
     /**
      * Get the sole instance of NodeRegistry.
      * Create and initialise it if it does not exist already.
-     * @return NodeRegistry
+     * @return nodeRegistry sole instance of NodeRegistry
      */
     public static NodeRegistry getInstance() {
-        if (instance == null) {
+        if (nodeRegistry == null) {
             synchronized (NodeRegistry.class) {
-                if (instance == null) {
-                    instance = new NodeRegistry();
+                if (nodeRegistry == null) {
+                    nodeRegistry = new NodeRegistry();
                 }
             }
         }
-        return instance;
+        return nodeRegistry;
     }
 
     /** Default constructor. */
@@ -99,7 +99,7 @@ public class NodeRegistry {
             LOGGER.error("Node registry not initialised");
         } else {
             // add nodes to singleton, for use by all other classes
-            NodeRegistry.nodes = xNodes;
+            nodeRegistry.nodes = xNodes;
             LOGGER.info(
                     "Node registry initialised. Number of nodes is {}",
                     xNodes.size());
@@ -112,7 +112,7 @@ public class NodeRegistry {
      * @param xNodes the list of EOSCNodes
      */
     public void setNodes(final List<EoscNode> xNodes) {
-        NodeRegistry.nodes = xNodes;
+        nodeRegistry.nodes = xNodes;
     }
 
     /**
@@ -123,7 +123,7 @@ public class NodeRegistry {
     @Operation(summary = "Get nodes", description =
     "Retrieves the list of nodes from the registry.")
     public List<EoscNode> getNodes() {
-        return NodeRegistry.nodes;
+        return nodeRegistry.nodes;
     }
 
     /**
