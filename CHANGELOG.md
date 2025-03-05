@@ -14,7 +14,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - *Fixed (for any bug fixes)*
 - *Security (in case of vulnerabilities)*
 
-## [1.4.0] 2025-03-03
+## [1.3.2] 2025-03-05
+
+### Changed
+
+- Final clean ups, based on Checkstyle (Sun configuration) recommendations. Hopefully.
+
+## [1.3.1] 2025-03-03
 
 ### Changed
 
