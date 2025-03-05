@@ -134,6 +134,22 @@
       <artifactId>groovy</artifactId>
       <version>3.0.24</version>
     </dependency>
+    <dependency>
+        <groupId>org.hibernate.validator</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>8.0.1.Final</version>
+    </dependency>
+    <dependency>
+        <groupId>org.glassfish.expressly</groupId>
+        <artifactId>expressly</artifactId>
+        <version>5.0.0</version>
+    </dependency>
+    <!-- Needed for Java 17+  -->
+    <dependency>
+        <groupId>org.glassfish</groupId>
+        <artifactId>jakarta.el</artifactId>
+        <version>4.0.2</version>
+    </dependency>
   </dependencies>
   <profiles>
     <profile>
@@ -169,7 +185,7 @@
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
               <artifactId>checkstyle</artifactId>
-              <version>9.3</version>
+              <version>10.21.4</version>
             </dependency>
           </dependencies>
         </plugin>

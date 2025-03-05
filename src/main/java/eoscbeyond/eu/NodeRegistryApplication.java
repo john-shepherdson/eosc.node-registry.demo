@@ -18,7 +18,6 @@ package eoscbeyond.eu;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.boot.SpringApplication;
@@ -45,10 +44,10 @@ public class NodeRegistryApplication extends SpringBootServletInitializer  {
     IOException {
         SpringApplication.run(NodeRegistryApplication.class, args);
         String filePath = "nodes.csv";
-        List<EoscNode> nodeList = new ArrayList<>();
+
         // Initialise the Node Registry - Read node details from CVS file
         ReadNodeDetails readNodeDetails = new ReadNodeDetails(filePath);
-        nodeList = readNodeDetails.getNodes();
+        List<EoscNode> nodeList = readNodeDetails.getNodes();
 
         // Create and initialise the sole NodeRegistry instance.
         NodeRegistry nodeRegistry = NodeRegistry.getInstance();

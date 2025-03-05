@@ -83,11 +83,6 @@ class ReadNodeDetailsTest {
 
         assertNotNull(nodes);
         assertEquals(0, nodes.size());
-
-        //assertEquals("1", nodes.get(0).getId());
-       //assertEquals("Test Node", nodes.get(0).getName());
-        //assertEquals("2", nodes.get(1).getId());
-        //assertEquals("Another Node", nodes.get(1).getName());
     }
 
     @Test
