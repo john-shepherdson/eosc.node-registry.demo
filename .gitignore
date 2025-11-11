@@ -64,3 +64,6 @@ nbdist/
 bin/
 quit
 
+### VS Code ###
+architecture.yml
+sonar-project.properties

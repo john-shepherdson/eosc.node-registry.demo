@@ -22,11 +22,26 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties
-public record Configuration(
-    URI noderegistryUrl
-) {
-    /** Defult URL. */
+@ConfigurationProperties(prefix = "eosc.node.registry")
+/**
+ * <p>
+ * The {@code Configuration} class represents the configuration of the EOSC Node
+ * Registry.
+ * </p>
+ * <p>
+ * This class provides methods to retrieve and modify the configuration of the
+ * EOSC Node Registry.
+ * </p>
+ * <p>
+ * <strong>Note:</strong> The configuration is read from the application
+ * properties file.
+ * </p>
+ * 
+ * @author John Shepherdson
+ */
+public record Configuration(URI noderegistryUrl) {
+
+    /** Default URL. */
     private static final URI DEFAULT_NODEREGISTRY_URL =
     URI.create("http://localhost:1336/");
 

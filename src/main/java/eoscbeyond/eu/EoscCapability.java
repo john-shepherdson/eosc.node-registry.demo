@@ -31,18 +31,7 @@ import com.google.gson.Gson;
  * representation.
  * </p>
  *
- * <p>
- * Example usage:
- * </p>
- *
- * <pre>
- * URI endpointUri = new URI("https://example.com/capability");
- * EoscCapability capability = new EoscCapability("Resource Catalogue",
- * endpointUri, "1.0");
- * String json = capability.toJson();
- * logger.info(json);
- * </pre>
- *
+ * @author John Shepherdson
  */
 public class EoscCapability {
   /** Name of Capability. */

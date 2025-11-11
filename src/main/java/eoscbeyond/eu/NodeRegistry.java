@@ -33,29 +33,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  * It provides functionalities for adding, retrieving, and searching for nodes
  * based on their unique ID or capabilities.
  * </p>
- *
- * <p>
- * Example usage:
- * </p>
- *
- * <pre>
- * List<EoscNode> nodeList = new ArrayList<>();
- * nodeList.add(new EoscNode("123", "Example Node", logoUri, "PID123",
- *         legalEntity, endpointUri, capabilities));
- * NodeRegistry registry = new NodeRegistry(nodeList);
- * EoscNode foundNode = registry.searchNodeById("123");
- * List<EoscNode> storageNodes = registry.searchNodesByCapability
- * ("Resource Catalogue");
- * </pre>
- *
  * <p>
  * <strong>Note:</strong> The registry uses a static list of nodes, meaning
- * all instances
- * share the same data.
+ * all instances share the same data.
  * </p>
  *
  * @author John Shepherdson
- * @version 1.0
  */
 
 @Tag(name = "Node Registry", description =

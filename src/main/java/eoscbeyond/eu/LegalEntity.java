@@ -30,17 +30,7 @@ import com.google.gson.Gson;
  * representation.
  * </p>
  *
- * <p>
- * Example usage:
- * </p>
- *
- * <pre>
- * URI rorUri = new URI("https://ror.org/12345");
- * LegalEntity entity = new LegalEntity("Example Organisation", rorUri);
- * String json = entity.toJson();
- * logger.info(json);
- * </pre>
- *
+ * @author John Shepherdson
  */
 public class LegalEntity {
     /** Name of legal entity. */

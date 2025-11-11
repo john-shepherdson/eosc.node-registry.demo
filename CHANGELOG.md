@@ -1,9 +1,17 @@
 # Changelog
 
-All notable changes to *EOSC Node Registry (demo)* will be documented in this file.
+All notable changes will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
+In case of Markdown errors due to repeated headings, set
+
+```shell
+"MD024": { "siblings_only": true }
+```
+
+in .markdownlint.json
 
 *For each release, use the following sub-sections:*
 

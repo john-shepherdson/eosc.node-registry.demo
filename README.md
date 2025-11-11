@@ -17,42 +17,52 @@ Java 21 or greater is required to build and run this application.
 3. Build the application using `mvn clean verify`.
 4. Run the application using the following command: `mvn exec:java`.
 
-## Getting Started
+## Getting started as developer
 
-To compile this application, run:
+### Execute tests and run the application
 
-```bash
-mvn install
+```shell
+# Execute all tests locally with default config
+mvn clean test
+
+# Run the app locally with default config and pre-populated database
+mvn clean spring-boot:run
+# Browse to http://localhost:8080 
+# Stop the app with Ctrl+C
 ```
 
-This will create a WAR suitable for deploying on Java Application servers
-(e.g. Tomcat, Jetty...).
+### Create and run service environment with docker-compose
 
-To compile and run this application locally run:
+```shell
+# Package Java jar file and build docker image with required settings
+mvn -DskipTests clean package docker:build -Pdocker-compose
 
-```bash
-mvn jetty:run
-```
+# Create and start the environment in daemon mode (-d)
+# as specified in docker-compose.yml
+docker-compose -f target/docker/context/docker-compose.yml up -d
 
-The application will run locally at <http://localhost:8080/>.
+# Show all (-a) containers, service must be healthy to be available
+docker ps -a
 
-## Docker
+# Check out with our browser: http://localhost:8080
+# Check out with our browser: http://localhost:8080/actuator
 
-To create a Docker image, run:
+# Stop the environment
+# All containers and the local network are stopped, but not deleted
+docker-compose -f target/docker/context/docker-compose.yml stop
 
-```bash
-mvn install jib:dockerBuild -Dimage=IMAGE_TAG
-```
+# Start the existing environment
+# All containers and the local network are started
+docker-compose -f target/docker/context/docker-compose.yml start
 
-Substitute `IMAGE_TAG` for a desired image tag. The application can then be run using
-`docker run -p 8080:8080 IMAGE_TAG` and will be hosted on <http://localhost:8080/>.
+# Open a shell within the running container as specified in docker-compose.yml
+# Exit the container shell again by Ctrl+C
+docker exec -it $CONTAINERID /bin/sh
+# Checkout filesystem within container with 'ls -la'
 
-## Options
-
-To set url environment variable for nodedRegistry component:
-
-```bash
-export NODEREGISTRY_URL="http://localhost:1336"
+# Shutdown the environment
+# All containers and the local network are stopped and deleted
+docker-compose -f target/docker/context/docker-compose.yml down
 ```
 
 ## Project Structure

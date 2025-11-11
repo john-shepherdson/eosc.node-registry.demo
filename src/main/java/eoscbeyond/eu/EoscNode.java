@@ -35,29 +35,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * of capabilities that describe the services or functions the node provides.
  * </p>
  *
- * <p>
- * Example usage:
- * </p>
- *
- * <pre>
- * String nodeId = "1234";
- * String nodeName = "Example Node";
- * URI logoUri = new URI("https://example.com/logo.png");
- * URI endpointUri = new URI("https://example.com/endpointapi");
- * LegalEntity legalEntity = new LegalEntity("Legal Entity Name",
- *         new URI("https://ror.org/example"));
- * ArrayList<EoscCapability> capabilities = new ArrayList<>();
- * capabilities.add(new EoscCapability("Resource Catalogue",
- *         new URI("https://capability.example.com"), "1.0"));
- *
- * EoscNode node = new EoscNode("123", "Example Node", logoUri, "PID123",
- *         legalEntity, endpointUri, capabilities);
- * String json = node.toJson();
- * logger.info(json);
- * </pre>
- *
  * @author John Shepherdson
- * @version 1.0
  */
 @Schema(description = "Represents a node in the EOSC ecosystem.")
 public class EoscNode {

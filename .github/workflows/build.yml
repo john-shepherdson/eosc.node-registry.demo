@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - nextRelease
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
@@ -33,4 +34,4 @@ jobs:
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=john-shepherdson_eosc.node-registry.demo
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=eosc-beyond-sqa_eosc.node-registry.demo

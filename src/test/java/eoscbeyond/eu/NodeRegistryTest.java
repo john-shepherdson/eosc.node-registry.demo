@@ -32,13 +32,13 @@ import org.junit.jupiter.api.Test;
  * Unit tests for the {@code NodeRegistry} class.
  */
 class NodeRegistryTest {
-    /** */
+    /** Test node 1 */
     private EoscNode node1;
-    /** */
+    /** Test node 2 */
     private EoscNode node2;
-    /** */
+    /** Test node list */
     private List<EoscNode> nodeList;
-    /**  */
+    /** Test node registry */
     private NodeRegistry testNodeRegistry = NodeRegistry.getInstance();
 
     /**

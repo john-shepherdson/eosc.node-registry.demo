@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -35,10 +37,34 @@ import eoscbeyond.eu.data.Configuration;
 
 @EnableConfigurationProperties(Configuration.class)
 @SpringBootApplication
+
+/**
+ * <p
+ * The {@code NodeRegistryApplication} class is the main entry point for the
+ * EOSC Node Registry application.
+ * </p>
+ * <p>
+ * It reads node details from a CSV file, creates a list of {@code EoscNode}
+ * instances, and initialises the {@code NodeRegistry} with the list of nodes.
+ * </p>
+ * <p>
+ * <strong>Note:</strong> The application is configured to run as a Spring Boot
+ * application.
+ * </p>
+ * 
+ * @author John Shepherdson
+ */
 public class NodeRegistryApplication extends SpringBootServletInitializer  {
+    /** Logger. */
+    private static final Logger LOGGER =
+    LogManager.getLogger(ReadNodeDetails.class);
 
     /**
-     * @param args
+     * Main entry point for the EOSC Node Registry application.
+     * 
+     * @param args Arguments
+     * @throws URISyntaxException If the URI is invalid
+     * @throws IOException If an I/O error occurs
      */
     public static void main(final String[] args) throws URISyntaxException,
     IOException {
@@ -52,10 +78,12 @@ public class NodeRegistryApplication extends SpringBootServletInitializer  {
         // Create and initialise the sole NodeRegistry instance.
         NodeRegistry nodeRegistry = NodeRegistry.getInstance();
         nodeRegistry.setNodes(nodeList);
+        LOGGER.info("NodeRegistry instance initialised.");
     }
 
     /**
-     * @param application
+     * Configure the application.
+     * @param application SpringApplicationBuilder
      * @return SpringApplicationBuilder
      */
     @Override
@@ -65,7 +93,8 @@ public class NodeRegistryApplication extends SpringBootServletInitializer  {
     }
 
     /**
-     * @return ObjectMapper
+     * Create an ObjectMapper bean.
+     * @return ObjectMapper bean
      */
     @Bean
     public ObjectMapper objectMapper() {

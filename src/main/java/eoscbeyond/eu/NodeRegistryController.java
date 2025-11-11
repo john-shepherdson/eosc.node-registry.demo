@@ -30,18 +30,36 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@RestController
+@RestController // This class is a Spring Boot RESTful controller
 @CrossOrigin(origins = "*") // Allow all origins
-@RequestMapping("/nodes")
+@RequestMapping("/nodes") // Map HTTP requests to /nodes
 @Tag(name = "Node Registry", description =
-"Endpoints for managing node registry")
+"Endpoints for managing node registry") // Tag for OpenAPI documentation
+
+/**
+ * <p>
+ * The {@code NodeRegistryController} class provides RESTful endpoints for
+ * managing the EOSC Node Registry.
+ * </p>
+ * <p>
+ * It allows users to retrieve a list of all registered nodes, search for a node
+ * by its ID, and search for nodes that offer a specific capability.
+ * </p>
+ * <p>
+ * <strong>Note:</strong> The controller is configured to run as a Spring Boot
+ * RESTful controller.
+ * </p>
+ * 
+ * @author John Shepherdson
+ */
 public class NodeRegistryController {
 
     /** Get the sole NodeRegistry instance. */
     private NodeRegistry nodeRegistry = NodeRegistry.getInstance();
 
     /**
-     * @return ResponseEntity<List<EoscNode>>
+     * Get all nodes.
+     * @return ResponseEntity list of {@code EoscNode} all registered nodes
      */
     @Operation(summary = "Get all nodes", description =
     "Retrieves the list of all registered nodes.")
@@ -51,8 +69,9 @@ public class NodeRegistryController {
     }
 
     /**
+     * Search for node by ID.
      * @param id EoscNode ID
-     * @return ResponseEntity<String> List of EoscNode summary details
+     * @return ResponseEntity {@code String} List of EoscNode summary details
      */
     @Operation(summary = "Search for node by ID", description =
     "Retrieves endpoint and capapility info for a node by its ID.")
@@ -68,8 +87,9 @@ public class NodeRegistryController {
     }
 
     /**
+     * Search for nodes by capability.
      * @param capability name of EoscCapability to search for
-     * @return ResponseEntity<String> List of EoscNodes that have the capability
+     * @return ResponseEntity {@code String} List of EoscNodes that have the capability
      */
     @Operation(summary = "Search for nodes by capability", description =
     "Finds nodes that offer a specific capability.")

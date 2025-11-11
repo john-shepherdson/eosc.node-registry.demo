@@ -18,20 +18,26 @@
 # Built using Maven 3 and JDK 21
 
 # Compile
-FROM eclipse-temurin@sha256:a0beb73cc0482c579ccff1a2df91024d8c01783d0772ad0c26f3817d3e9ad0b9 AS build
-WORKDIR /app
-COPY pom.xml .
-# Copy the Node data
-COPY src/main/resources/nodes.csv nodes.csv
-RUN mvn dependency:resolve && mvn dependency:resolve-plugins
-COPY . .
-RUN mvn verify
+FROM eclipse-temurin
+WORKDIR /src
 
-COPY target/node-registry-1.0-SNAPSHOT.jar node-registry-1.0-SNAPSHOT.jar
-CMD ["java", "-jar", "node-registry-1.0-SNAPSHOT.jar"]
+# Copy in the Maven Wrapper
+COPY mvnw .
+COPY .mvn .mvn
+
+# Resovle dependencies
+COPY pom.xml .
+RUN ./mvnw dependency:resolve && ./mvnw dependency:resolve-plugins
+
+# Compile
+COPY . .
+RUN ./mvnw verify
 
 # Package
-FROM tomcat:10.1-jdk21 AS final
-WORKDIR /usr/local/tomcat/webapps
-RUN rm -rf /usr/local/tomcat/webapps/*
-COPY --from=build /src/target/*.war /usr/local/tomcat/webapps/ROOT.war
+FROM eclipse-temurin:21 AS final
+WORKDIR /app
+COPY --from=build /src/target/node-registry-1.0-SNAPSHOT.jar /libs/node-registry-1.0-SNAPSHOT.jar
+
+# Entrypoint - Start Admin
+#ENTRYPOINT ["java", "-jar", "libs/node-registry-1.0-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-file", "com.eosc.node.registry.Main"]

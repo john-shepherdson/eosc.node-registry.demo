@@ -17,5 +17,7 @@
  /**
  * This package contains classes related to EOSC Node registry.
  * It includes functionality for reading and parsing node data from CSV files.
+ * 
+ * @author John Shepherdson
  */
 package eoscbeyond.eu.data;

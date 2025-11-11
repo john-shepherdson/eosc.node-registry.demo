@@ -34,10 +34,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
+ * <p>
  * The {@code ReadNodeDetails} class is responsible for reading and parsing node
  * details
  * from a CSV file and converting them into a list of {@code EoscNode} objects.
- * <p>
+ * </p>
  * It provides functionality to:
  * <ul>
  * <li>Read node details from a CSV file</li>
@@ -47,34 +48,19 @@ import org.apache.logging.log4j.Logger;
  * </ul>
  * This class is useful for dynamically loading node information from external
  * data sources.
- * </p>
- *
  * <p>
- * <strong>CSV Format Assumption:</strong>
- * </p>
+ * <strong>CSV Format Assumption:</strong> *
  * The CSV file is expected to have the following format (semicolon-separated):
- *
- * <pre>
- * ID;Name;LogoURI;PID;[LegalEntityName, ROR_URI];NodeEndpoint;
- * [[Capability1, EndpointURI1, Version1],[Capability2, EndpointURI2, Version2]]
- * </pre>
- *
+ * </p>
  * <p>
  * Example:
  * </p>
- *
- * <pre>
- * 1;Example Node;http://example.com/logo.png;PID123;[Example Entity,
- * http://example.com/ror];http://example.com/node;
- * [[Compute, http://example.com/cap, v1],
- * [Storage, http://example.com/storage, v2]]
- * </pre>
- *
  * <p>
  * This ensures that the parsing logic works correctly with structured node
  * data.
  * </p>
- *
+ * 
+ * @author John Shepherdson
  */
 public class ReadNodeDetails {
     /** Placeholder for list of nodes. */
@@ -108,6 +94,8 @@ public class ReadNodeDetails {
      * Parameterised constructor for LegalEntity.
      *
      * @param filePath path to CSV file containing Node details
+     * @throws URISyntaxException if the URI format is invalid
+     * @throws IOException        if an error occurs while processing the input
      */
     public ReadNodeDetails(final String filePath) throws URISyntaxException,
     IOException {
@@ -130,6 +118,8 @@ public class ReadNodeDetails {
      *
      * @param filePath the path to the CSV file containing node details
      * @return a list of {@code EoscNode} objects parsed from the file
+     * @throws URISyntaxException if the URI format is invalid
+     * @throws IOException        if an error occurs while processing the input
      */
     public List<EoscNode> readNodesFromCSV(final String filePath)
             throws URISyntaxException, IOException {
@@ -175,7 +165,6 @@ public class ReadNodeDetails {
      *
      * @param legalEntityValues the string containing legal entity details
      * @return a {@code LegalEntity} object
-     * @throws IOException        if an error occurs while processing the input
      * @throws URISyntaxException if the URI format is invalid
      */
     public static LegalEntity readLegalEntityFromString(
@@ -202,7 +191,6 @@ public class ReadNodeDetails {
      *
      * @param input the string containing capability data
      * @return an {@code ArrayList} of {@code EoscCapability} objects
-     * @throws IOException        if an error occurs while processing the input
      * @throws URISyntaxException if a URI format is invalid
      */
     public static List<EoscCapability> readCapabilitiesFromString(
@@ -252,12 +240,13 @@ public class ReadNodeDetails {
     }
 
     /**
-     * Parses the contents of a line from the CVS data file.
+     * Parses a string array containing node details and returns a list of
+     * {@code EoscNode} objects.
      *
-     * @param values
-     * @return nodeList<EoscNode>
-     * @throws NumberFormatException
-     * @throws URISyntaxException
+     * @param values the string array containing node details
+     * @return a list of {@code EoscNode} objects
+     * @throws NumberFormatException if a number format is invalid
+     * @throws URISyntaxException    if a URI format is invalid
      */
     public static List<EoscNode> parseNodeDetail(final String[] values)
             throws NumberFormatException, URISyntaxException {
